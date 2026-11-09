@@ -1,0 +1,57 @@
+$ git rev-parse HEAD
+6d910ab88206855f868fef64ff63743ff8acebd4
+exit_code=0
+
+$ go version
+go version go1.26.9 linux/amd64
+exit_code=0
+
+$ go version -m bin/enrolld
+bin/enrolld: go1.26.9
+	path	enroll-lab/cmd/enrolld
+	mod	enroll-lab	v0.0.0-20261109060535-32ef213bf56a	
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	-trimpath=true
+	build	CGO_ENABLED=0
+	build	GOARCH=amd64
+	build	GOOS=linux
+	build	GOAMD64=v1
+	build	vcs=git
+	build	vcs.revision=32ef213bf56a0043751ca9378182e04bf36801a2
+	build	vcs.time=2026-11-09T06:05:35Z
+	build	vcs.modified=false
+exit_code=0
+
+$ nproc
+2
+exit_code=0
+
+$ cat /sys/fs/cgroup/cpuset.cpus.effective
+0-1
+exit_code=0
+
+$ cat /proc/sys/kernel/sched_cfs_bandwidth_slice_us
+5000
+exit_code=0
+
+$ systemctl is-active lab3-prometheus lab3-node-exporter
+active
+active
+exit_code=0
+
+GOMAXPROCS=None
+GODEBUG=None
+binary_sha256=266840b4bfa9b7e634f4dcc88fc5979f6cefdf8a1ae4a2a97f360ad33fef1821
+
+start=2026-11-09T20:16:19.727711+08:00
+command=systemd-run --quiet --scope -p CPUQuota=50% bin/enrolld -burn 1 -for 10s
+
+end=2026-11-09T20:16:29.950569+08:00
+exit_code=0
+
+start=2026-11-09T20:16:29.950647+08:00
+command=systemd-run --quiet --scope -p CPUQuota=50% bin/enrolld -burn 2 -for 10s
+
+end=2026-11-09T20:16:40.308521+08:00
+exit_code=0

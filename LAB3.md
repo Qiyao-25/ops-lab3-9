@@ -22,7 +22,7 @@
 
 Prometheus 的 `/-/ready` 检查成功；`/api/v1/targets` 返回 `status=success`，`node` 为 `up`，`enrolld`、`lbd` 为 `down`（尚未启动，符合任务 0 预期）。`instances` 使用空的 `data/targets.json`，待后续 scaler 更新。验证原文见 [targets.json](docs/task0/targets.json)、[node-up.json](docs/task0/node-up.json)、[prometheus-ready.txt](docs/task0/prometheus-ready.txt)。
 
-监控以 systemd 临时服务 `lab3-prometheus.service` 和 `lab3-node-exporter.service` 在后台运行，SSH 断开后仍运行；启动方式、状态、重启与停止命令见 [docs/task0/README.md](docs/task0/README.md)。仓库内不提交 `bin/`、`tools/`、`data/`。任务 A～E 尚未执行，以下预测与测量栏保持待填。
+监控以 systemd 临时服务 `lab3-prometheus.service` 和 `lab3-node-exporter.service` 在后台运行，SSH 断开后仍运行；启动方式、状态、重启与停止命令见 [docs/task0/README.md](docs/task0/README.md)。仓库内不提交 `bin/`、`tools/`、`data/`。目前已完成任务 0 与 A1；其余实验的预测与测量栏保持待填。
 
 ## 2. 任务 A：配额，节流与 OOM
 
@@ -30,16 +30,46 @@ Prometheus 的 `/-/ready` 检查成功；`/api/v1/targets` 返回 `status=succes
 
 预测（测量之前写）：配额 0.5 核、周期 100 ms，整个 cgroup 每周期共享 50 ms 的 CPU 时间。假设忙线程可同时在两个逻辑 CPU 上运行，1 个线程预计每周期运行 50 ms、被停 50 ms；2 个线程预计平均各运行 25 ms、被停 75 ms。持续跑满时，实际用核预计约 0.50，被节流周期比例接近 100%。本机有 2 个可用逻辑 CPU，未设置 GOMAXPROCS/GODEBUG 覆盖；Go 对 cgroup 配额向上取整且默认并行度在可用 CPU 不少于 2 时不低于 2，因此预计 GOMAXPROCS=2。调度开销、周期边界与按 CPU 累计计数可能使实测停顿与理想算术有小幅偏差。
 
-两次 `-burn` 的输出：
+两次 `-burn` 的输出（原文）：
+
+**1 个忙线程：**
 
 ```text
-<粘贴>
+cgroup：/sys/fs/cgroup/system.slice/run-r19ca3fff7bcf4cfaa93ee01c6bd2b965.scope
+cpu.max：配额 0.50 核，周期 100ms（每个周期最多 50 ms CPU 时间）
+GOMAXPROCS=2，忙线程 1 个，计数 10.0 秒
+实际用核 0.50；周期 100 个，被节流 100 个（100%）；被停共 5.04 秒（按 CPU 累计）
+每个线程每个周期被停：实测 50.4 ms，算术 50.0 ms
+```
+
+**2 个忙线程：**
+
+```text
+cgroup：/sys/fs/cgroup/system.slice/run-r74539af212904946b2005c63e253a9be.scope
+cpu.max：配额 0.50 核，周期 100ms（每个周期最多 50 ms CPU 时间）
+GOMAXPROCS=2，忙线程 2 个，计数 10.1 秒
+实际用核 0.50；周期 101 个，被节流 101 个（100%）；被停共 15.09 秒（按 CPU 累计）
+每个线程每个周期被停：实测 74.7 ms，算术 75.0 ms
 ```
 
 | 线程数 | 周期数 | 被节流的周期 | 实际用核 | 每线程每周期被停（实测） | 算术 |
 |---|---|---|---|---|---|
-| 1 | <填写> | <填写> | <填写> | <填写> | <填写> |
-| 2 | <填写> | <填写> | <填写> | <填写> | <填写> |
+| 1 | 100 | 100（100%） | 0.50 | 50.4 ms | 运行 50 ms，被停 50 ms |
+| 2 | 101 | 101（100%） | 0.50 | 74.7 ms | 平均各运行 25 ms，被停 75 ms |
+
+证据：[1 线程原始输出](docs/a1/burn-1.txt)、[2 线程原始输出](docs/a1/burn-2.txt)、[执行条件与时间](docs/a1/measurement-meta.txt)。A1 按指导书直接运行 `-burn`，没有运行 HTTP 压测脚本，因此原始输出存于 `docs/a1/`；未手工构造 `runs/` 数据。
+
+**计算与分析：** 设周期 P=100 ms、配额 L=0.5 核、忙线程数 n，每周期总 CPU 预算 Q=L×P=50 ms；理想均分时，每线程运行 Q/n、被停 P−Q/n。两个线程可并行消耗同一份预算，约 25 ms 后就耗尽该周期的 50 ms 总预算，因此余下约 75 ms 一起被节流。增加线程没有增加可用的 CPU 总时间。
+
+程序读取的是测量窗口内 `cpu.stat` 的增量，实测停顿口径为 `Δthrottled_usec / Δnr_periods / n / 1000`（毫秒）。按原始输出中已四舍五入的累计值近似复核：1 线程为 `5.04×1000/100/1=50.4 ms`；2 线程为 `15.09×1000/101/2≈74.7 ms`。`throttled_usec` 按 CPU 累计，因此第二次累计被停 15.09 秒超过约 10.1 秒墙钟时间是正常的，不能将其直接当成进程停顿的墙钟时长。
+
+与理想值相比，1 线程多 0.4 ms（约 +0.8%），2 线程少 0.3 ms（约 −0.4%），均为程序打印精度下的比较。周期边界、CPU 调度与迁移、运行时辅助工作、带宽分片以及统计取样时机都会影响理想模型与实测的对应；当前汇总计数不足以将小幅偏差唯一归因到其中一项。第二次计数覆盖 101 个周期，不能强行按 100 个周期计算。
+
+两次 `GOMAXPROCS=2` 与预测一致：本机可用逻辑 CPU 和亲和性均允许 2 个 CPU，未设置环境变量覆盖，Go 1.26 在这种条件下默认并行度不低于 2。它表示执行 Go 代码的并行上限，CPUQuota 则限制每周期累计 CPU 时间；并行上限为 2 不代表获得 2 核的 CPU 时间。两次实际用核均约 0.50，100% 的节流周期表示每个配额周期都至少发生一次节流，并不表示进程全程没有运行。
+
+以上结论适用于本机两逻辑 CPU 可用、0.5 核配额、100 ms 周期且线程持续忙的条件；线程阻塞、亲和性限制或其他竞争条件变化时，不应直接套用 50/75 ms 的理想均分结果。
+
+机制参考：[Go runtime 的 GOMAXPROCS 默认规则](https://pkg.go.dev/runtime#GOMAXPROCS)、[Linux CFS 带宽控制说明](https://www.kernel.org/doc/html/latest/scheduler/sched-bwc.html)。
 
 ### 2.2 A2 节流与 p99
 

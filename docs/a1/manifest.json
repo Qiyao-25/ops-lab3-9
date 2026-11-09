@@ -1,0 +1,32 @@
+[
+  {
+    "file": "burn-1.txt",
+    "bytes": 383,
+    "sha256": "a4a2d07e99e2cc0260c97c1a7eb97e779f4ccebfc467d741db0cf5904f3e5df0"
+  },
+  {
+    "file": "burn-2.txt",
+    "bytes": 384,
+    "sha256": "19433ff19ff4f2386a6147733aba82835a2e165a24e2d72f46f488785f7614f6"
+  },
+  {
+    "file": "burn-1.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "burn-2.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "measurement-meta.txt",
+    "bytes": 1244,
+    "sha256": "0fd69b123dc36033f8e8e8baeaa421c4deb26109e4c5558962ec8898f636c9c4"
+  },
+  {
+    "file": "prediction.md",
+    "bytes": 758,
+    "sha256": "ae2eafe68db36f907cfdbe86dccbb3317313bc81dcf79094ce94b937efab1976"
+  }
+]
