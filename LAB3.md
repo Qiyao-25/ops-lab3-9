@@ -1,4 +1,4 @@
-# 实验 3 记录：第 <组号> 组
+# 实验 3 记录：第 9 组
 
 评分时依据本文件和 `runs/` 中的原始数据核对。本文件中的每一个数值，都须能在某个 `runs/<名字>/` 的文件中找到：表格用 `scripts/table.sh` 生成或从 `summary.md` 中复制后粘贴，其他数值注明出处（例如“`runs/b2-cpu/summary.md` 缺口表第 1 行”）。不要只贴截图。将 `<填写>` 替换为本组的内容。
 
@@ -8,15 +8,21 @@
 
 | 项 | 内容 |
 |---|---|
-| 小组 | 第 <组号> 组 |
-| 仓库地址 | <https://github.com/…> |
-| 主机 | <云厂商与规格名，例如某云的 2 vCPU 4 GB 通用型> |
-| CPU | <`lscpu` 的 Model name；vCPU 数> |
-| 内存与 swap | <`free -m` 的 total；`swapon --show` 的输出，没有 swap 就写“无”> |
-| 操作系统、内核、systemd | <`/etc/os-release` 的 PRETTY_NAME；`uname -r`；`systemctl --version` 第一行> |
-| cgroup | <`stat -fc %T /sys/fs/cgroup` 的输出；`cat /sys/fs/cgroup/cgroup.controllers` 的输出> |
-| Go、Prometheus、node_exporter | <`go version`；`tools/prometheus --version` 第一行；`tools/node_exporter --version` 第一行> |
-| 分核 | 实例：<如 1>；loadgen、lbd、scaler、Prometheus、node_exporter：<如 0> |
+| 小组 | 第 9 组；组员已邀请加入仓库（组长确认） |
+| 仓库地址 | <https://github.com/Qiyao-25/ops-lab3-9>，Public |
+| 主机 | 华为云 ECS；2 vCPU，系统可见内存 3531 MiB；具体云规格名称未核实 |
+| CPU | General Purpose Processor；2 vCPU；KVM 虚拟化 |
+| 内存与 swap | `free -m`：total 3531 MiB；无 swap（`swapon --show` 无输出） |
+| 操作系统、内核、systemd | Ubuntu 24.04.4 LTS；6.8.0-136-generic；systemd 255 (255.4-1ubuntu8.16) |
+| cgroup | `cgroup2fs`；控制器：`cpuset cpu io memory hugetlb pids rdma misc` |
+| Go、Prometheus、node_exporter | go1.26.9 linux/amd64；3.13.4；1.12.1 |
+| 分核 | 后续实例：CPU 1（scaler 默认）；loadgen、lbd、scaler、Prometheus、node_exporter：CPU 0。当前已将 Prometheus、node_exporter 绑定 CPU 0 |
+
+任务 0 于 2026-11-09 完成主机配置。原始检查输出见 [docs/task0/environment.txt](docs/task0/environment.txt)，`make build test` 的完整成功输出见 [docs/task0/build-test.txt](docs/task0/build-test.txt)。本节主机与版本数值均来自以上记录。工具复用本机实验 2 的 `tools/`。
+
+Prometheus 的 `/-/ready` 检查成功；`/api/v1/targets` 返回 `status=success`，`node` 为 `up`，`enrolld`、`lbd` 为 `down`（尚未启动，符合任务 0 预期）。`instances` 使用空的 `data/targets.json`，待后续 scaler 更新。验证原文见 [targets.json](docs/task0/targets.json)、[node-up.json](docs/task0/node-up.json)、[prometheus-ready.txt](docs/task0/prometheus-ready.txt)。
+
+监控以 systemd 临时服务 `lab3-prometheus.service` 和 `lab3-node-exporter.service` 在后台运行，SSH 断开后仍运行；启动方式、状态、重启与停止命令见 [docs/task0/README.md](docs/task0/README.md)。仓库内不提交 `bin/`、`tools/`、`data/`。任务 A～E 尚未执行，以下预测与测量栏保持待填。
 
 ## 2. 任务 A：配额，节流与 OOM
 

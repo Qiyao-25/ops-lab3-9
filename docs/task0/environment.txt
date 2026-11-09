@@ -1,0 +1,145 @@
+$ date -Is
+2026-11-09T14:16:17+08:00
+exit_code=0
+
+$ git rev-parse HEAD
+32ef213bf56a0043751ca9378182e04bf36801a2
+exit_code=0
+
+$ stat -fc %T /sys/fs/cgroup
+cgroup2fs
+exit_code=0
+
+$ cat /sys/fs/cgroup/cgroup.controllers
+cpuset cpu io memory hugetlb pids rdma misc
+exit_code=0
+
+$ systemctl --version | head -n 1
+systemd 255 (255.4-1ubuntu8.16)
+exit_code=0
+
+$ lscpu
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           42 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  2
+On-line CPU(s) list:                     0,1
+Vendor ID:                               GenuineIntel
+BIOS Vendor ID:                          QEMU
+Model name:                              General Purpose Processor
+BIOS Model name:                         pc-i440fx-4.1  CPU @ 2.0GHz
+BIOS CPU family:                         1
+CPU family:                              6
+Model:                                   106
+Thread(s) per core:                      2
+Core(s) per socket:                      1
+Socket(s):                               1
+Stepping:                                6
+BogoMIPS:                                5600.00
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves wbnoinvd arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq fsrm md_clear arch_capabilities
+Hypervisor vendor:                       KVM
+Virtualization type:                     full
+L1d cache:                               48 KiB (1 instance)
+L1i cache:                               32 KiB (1 instance)
+L2 cache:                                1.3 MiB (1 instance)
+L3 cache:                                57 MiB (1 instance)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0,1
+Vulnerability Gather data sampling:      Unknown: Dependent on hypervisor status
+Vulnerability Indirect target selection: Mitigation; Aligned branch/return thunks
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Vulnerable: Clear CPU buffers attempted, no microcode; SMT Host state unknown
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Not affected
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Not affected
+exit_code=0
+
+$ free -m
+               total        used        free      shared  buff/cache   available
+Mem:            3531         562        1679           2        1527        2968
+Swap:              0           0           0
+exit_code=0
+
+$ swapon --show
+exit_code=0
+
+$ uname -r
+6.8.0-136-generic
+exit_code=0
+
+$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.4 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+exit_code=0
+
+$ go version
+go version go1.26.9 linux/amd64
+exit_code=0
+
+$ tools/prometheus --version 2>&1 | head -n 1
+prometheus, version 3.13.4 (branch: HEAD, revision: 007a9e9ba628f815ce83e1ba9f29b97981996c3c)
+exit_code=0
+
+$ tools/node_exporter --version 2>&1 | head -n 1
+node_exporter, version 1.12.1 (branch: HEAD, revision: 6044da783597cc3b57aef7580ddcdcff58a4ee99)
+exit_code=0
+
+$ sar -V 2>&1 | head -n 1
+sysstat version 12.6.1
+exit_code=0
+
+$ tools/prometheus-3.13.4.linux-amd64/promtool check config deploy/prometheus.yml
+Checking deploy/prometheus.yml
+ SUCCESS: deploy/prometheus.yml is valid prometheus config file syntax
+
+exit_code=0
+
+$ systemctl is-active lab3-prometheus lab3-node-exporter
+active
+active
+exit_code=0
+
+$ systemctl show lab3-prometheus lab3-node-exporter -p Id -p ExecStart -p WorkingDirectory -p ActiveState -p SubState
+ExecStart={ path=/usr/bin/taskset ; argv[]=/usr/bin/taskset -c 0 /root/lab3/tools/prometheus --config.file=deploy/prometheus.yml --storage.tsdb.path=/dev/shm/lab3-prom --web.listen-address=127.0.0.1:9090 ; ignore_errors=no ; start_time=[Mon 2026-11-09 14:15:37 CST] ; stop_time=[n/a] ; pid=4660 ; code=(null) ; status=0/0 }
+WorkingDirectory=/root/lab3
+Id=lab3-prometheus.service
+ActiveState=active
+SubState=running
+
+ExecStart={ path=/usr/bin/taskset ; argv[]=/usr/bin/taskset -c 0 /root/lab3/tools/node_exporter --web.listen-address=127.0.0.1:9100 ; ignore_errors=no ; start_time=[Mon 2026-11-09 14:15:37 CST] ; stop_time=[n/a] ; pid=4656 ; code=(null) ; status=0/0 }
+WorkingDirectory=/root/lab3
+Id=lab3-node-exporter.service
+ActiveState=active
+SubState=running
+exit_code=0
+
+$ taskset -pc $(systemctl show lab3-prometheus -p MainPID --value)
+pid 4660's current affinity list: 0
+exit_code=0
+
+$ taskset -pc $(systemctl show lab3-node-exporter -p MainPID --value)
+pid 4656's current affinity list: 0
+exit_code=0
+
