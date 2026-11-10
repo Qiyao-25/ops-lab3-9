@@ -22,7 +22,7 @@
 
 Prometheus 的 `/-/ready` 检查成功；`/api/v1/targets` 返回 `status=success`，`node` 为 `up`，`enrolld`、`lbd` 为 `down`（尚未启动，符合任务 0 预期）。`instances` 使用空的 `data/targets.json`，待后续 scaler 更新。验证原文见 [targets.json](docs/task0/targets.json)、[node-up.json](docs/task0/node-up.json)、[prometheus-ready.txt](docs/task0/prometheus-ready.txt)。
 
-监控以 systemd 临时服务 `lab3-prometheus.service` 和 `lab3-node-exporter.service` 在后台运行，SSH 断开后仍运行；启动方式、状态、重启与停止命令见 [docs/task0/README.md](docs/task0/README.md)。仓库内不提交 `bin/`、`tools/`、`data/`。目前已完成任务 0 与 A1；其余实验的预测与测量栏保持待填。
+监控以 systemd 临时服务 `lab3-prometheus.service` 和 `lab3-node-exporter.service` 在后台运行，SSH 断开后仍运行；启动方式、状态、重启与停止命令见 [docs/task0/README.md](docs/task0/README.md)。仓库内不提交 `bin/`、`tools/`、`data/`。目前已完成任务 0、A1 与 A2；其余实验的预测与测量栏保持待填。
 
 ## 2. 任务 A：配额，节流与 OOM
 
@@ -83,9 +83,57 @@ throttle_ratio      rate(cgroup_cpu_throttled_periods_total{job="enrolld"}[${win
 
 预测（配额改为 50% 之前写）：基线 60 请求/秒阶段每请求 CPU 为 4.27909 ms，选 R=93 请求/秒，估计平均用核 0.397955，低于 0.5 核。配额 100% 的同到达率对照会补测 a2-base-r。预测：配额降到 50% 后，默认 GOMAXPROCS 仍为 2；Poisson 到达存在短时聚集，两个工作线程可更快消耗 100 ms 周期内共享的 50 ms CPU 预算，即使长期平均不到 0.5 核，仍可能节流并抬高 p99。预计节流周期比例约 10%～40%，p99 从基线约 10 ms 增至数十 ms，精确比例受到达过程和测量窗口影响。改法一按平均用量估算峰值并除以 0.7：0.397955/0.7=0.568508 核，向上取整为 CPUQuota=57%，预计降低节流与 p99，但增加配额预算。改法二保持 50% 配额并设置 GOMAXPROCS=1，预计降低并行突发对预算的快速消耗，p99 改善，但牺牲并行能力，负载更高时可能转为运行时排队；不保证完全消除节流。两种改法均使用同一 R、相同时长与默认随机种子。
 
-各次实验的数据（`scripts/table.sh runs/<名字> ok_rps p50_ms p99_ms server_p99_ms gomaxprocs cg_limit_cores cg_cpu_cores throttle_ratio throttled_s_per_s`，每次一张表）：
+各次实验的数据（scripts/table.sh 原样生成；两阶段均为 93 请求/秒，各 20 秒；all 行为客户端直接计算的全程统计，服务端指标无 all 行）：
 
-<粘贴表格：100%、50%、改法一、改法二>
+**`runs/a2-base-r`：**
+
+| step | target_rps | ok_rps | p50_ms | p99_ms | server_p99_ms | gomaxprocs | cg_limit_cores | cg_cpu_cores | throttle_ratio | throttled_s_per_s |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 93 | 95.5 | 7.00 | 11.47 | 9.96812 | 2 | 1 | 0.412184 | 0 | 0 |
+| 2 | 93 | 90.7 | 7.02 | 10.49 | 9.95796 | 2 | 1 | 0.374784 | 0 | 0 |
+| all | - | 93.1 | 7.01 | 10.99 | - | - | - | - | - | - |
+
+
+**`runs/a2-q50`：**
+
+| step | target_rps | ok_rps | p50_ms | p99_ms | server_p99_ms | gomaxprocs | cg_limit_cores | cg_cpu_cores | throttle_ratio | throttled_s_per_s |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 93 | 95.5 | 7.09 | 47.01 | 47.8289 | 2 | 0.5 | 0.410817 | 0.335714 | 0.0894531 |
+| 2 | 93 | 90.7 | 7.04 | 41.79 | 41.5053 | 2 | 0.5 | 0.372244 | 0.192857 | 0.0474409 |
+| all | - | 93.1 | 7.07 | 43.33 | - | - | - | - | - | - |
+
+
+**`runs/a2-q57`：**
+
+| step | target_rps | ok_rps | p50_ms | p99_ms | server_p99_ms | gomaxprocs | cg_limit_cores | cg_cpu_cores | throttle_ratio | throttled_s_per_s |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 93 | 95.5 | 7.01 | 17.34 | 15.8222 | 2 | 0.57 | 0.412515 | 0.121429 | 0.0168459 |
+| 2 | 93 | 90.7 | 7.01 | 16.25 | 11.0833 | 2 | 0.57 | 0.37142 | 0.0571429 | 0.0124129 |
+| all | - | 93.1 | 7.01 | 17.34 | - | - | - | - | - | - |
+
+
+**`runs/a2-gmp1`：**
+
+| step | target_rps | ok_rps | p50_ms | p99_ms | server_p99_ms | gomaxprocs | cg_limit_cores | cg_cpu_cores | throttle_ratio | throttled_s_per_s |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 93 | 95.5 | 8.50 | 42.93 | 36.5346 | 1 | 0.5 | 0.399938 | 0.25 | 0.0369381 |
+| 2 | 93 | 90.7 | 8.56 | 42.45 | 30.7062 | 1 | 0.5 | 0.362095 | 0.121429 | 0.0211651 |
+| all | - | 93.1 | 8.52 | 42.68 | - | - | - | - | - | - |
+
+
+**操作与条件：** 初始实例以 CPUQuota=100%、MemoryMax=256M、-work 2000000 启动，允许使用 CPU 0、1；loadgen 绑定 CPU 0。先用 30、60 请求/秒校准（runs/a2-base），再补测同一 R 的 100% 配额对照。随后不重启实例，依次修改为 50%、57% 配额；最后停止并以 GOMAXPROCS=1、50% 配额重启。完整参数、起止时间和 PID 见 docs/a2/*-state.json、operations.json。四组均使用默认 Poisson 到达、随机种子 1、93 请求/秒、两阶段各 20 秒，均发送 3724 个请求且全部成功。
+
+**分析：** 100% 配额对照全程 p50=7.01 ms、p99=10.99 ms，两个阶段均无节流。降为 50% 后，实际用核仅 0.410817、0.372244，低于 0.5 核；节流周期比例却升至 33.5714%、19.2857%，全程 p99=43.33 ms，约为对照的 3.94 倍，p50=7.07 ms 则几乎不变。每请求 CPU 仍约 4.2 ms，支持主要差异来自等待。随机到达存在短时聚集，两个工作线程可以并行消耗同一份 50 ms 周期 CPU 预算；长期平均不到 0.5 核，不保证每个 100 ms 周期都不耗尽预算。
+
+改法一按估计用量除以 0.7 并向上取整，配额改为 57%。全程 p99=17.34 ms，较 50% 默认并行度下降约 60.0%；节流周期比例降为 12.1429%、5.71429%，仍非零。配额预算相对增加 14%，实际用核仍约 0.37～0.41；增加的是资源余量，代价是更高配额预算、可能减少节点可容纳的实例数。此处按平均量估算，不保证覆盖所有未来突发。
+
+改法二保持 50% 配额并设置 GOMAXPROCS=1。节流周期比例降为 25.0%、12.1429%，按 CPU 累计的每秒节流时间也下降；但全程 p99=42.68 ms，仅比 43.33 ms 低约 1.5%，没有获得明显的尾延迟改善。p50 从 7.07 ms 升至 8.52 ms，平均延迟从 8.94 ms 升至 10.13 ms。两阶段 Go 调度等待 p99 为 19.82、13.4778 ms，高于默认并行度的 9.48269、7.54286 ms。这与降低并行度后增加运行时排队的机制一致，但当前计数不能精确分离所有等待来源。减少节流不等于改善端到端 p99；原预测对这一方案改善程度的估计偏乐观。
+
+节流比例是被节流周期数与全部周期数之比；throttled_s_per_s 则是按 CPU 累计的时间速率，二者含义不同。服务端查询排除每阶段前 5 秒，采用剩余 15 秒窗口；客户端统计完整 20 秒，服务端 p99 来自直方图估算，两侧分位数不必相同。全程 p99 直接取 steps.csv 的 all 行，不能平均两个阶段的 p99。
+
+**局限：** 每配置只测一轮、两阶段各 20 秒，结论限定于本机、到达率、工作量和随机种子，不能根据 1.5% 的单次差异断言长期效果。按指导书，服务与 loadgen 共用 CPU 0。四组客户端 CPU 使用约 2%，发送滞后 p99 为 1.06～1.47 ms，未出现压测机警告，支持本轮主要差异来自被测服务，但共享 CPU 与云主机干扰仍是限制。
+
+原始 CSV、资源日志和指标快照均保留在对应 runs/ 目录，未编辑。预测原文与选值见 [prediction.md](docs/a2/prediction.md)、[selection.json](docs/a2/selection.json)。机制参考：[Linux cgroup v2](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html)、[Go GOMAXPROCS](https://pkg.go.dev/runtime#GOMAXPROCS)。
 
 ### 2.3 A3 OOM
 

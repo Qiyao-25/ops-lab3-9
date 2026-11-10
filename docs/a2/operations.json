@@ -1,0 +1,245 @@
+[
+  {
+    "time": "2026-11-10T10:05:26.849985+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 2000000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 232232,\n  \"started\": \"2026-11-10T10:03:30+08:00\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:05:26.855330+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "CPUQuotaPerSecUSec",
+      "-p",
+      "CPUQuotaPeriodUSec",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=232232\nCPUQuotaPerSecUSec=1s\nCPUQuotaPeriodUSec=infinity\nMemoryMax=268435456\nEnvironment=\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:06:07.972452+08:00",
+    "command": [
+      "scripts/run.sh",
+      "a2-base-r",
+      "-url",
+      "http://127.0.0.1:8081/api/courses/1",
+      "-rates",
+      "93,93",
+      "-step",
+      "20s"
+    ],
+    "exit_code": 0
+  },
+  {
+    "time": "2026-11-10T10:06:07.977455+08:00",
+    "command": [
+      "systemctl",
+      "set-property",
+      "--runtime",
+      "lab3-a",
+      "CPUQuota=50%"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:06:09.983468+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 2000000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 232232,\n  \"started\": \"2026-11-10T10:03:30+08:00\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:06:09.988793+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "CPUQuotaPerSecUSec",
+      "-p",
+      "CPUQuotaPeriodUSec",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=232232\nCPUQuotaPerSecUSec=500ms\nCPUQuotaPeriodUSec=infinity\nMemoryMax=268435456\nEnvironment=\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:06:51.104011+08:00",
+    "command": [
+      "scripts/run.sh",
+      "a2-q50",
+      "-url",
+      "http://127.0.0.1:8081/api/courses/1",
+      "-rates",
+      "93,93",
+      "-step",
+      "20s"
+    ],
+    "exit_code": 0
+  },
+  {
+    "time": "2026-11-10T10:06:51.108411+08:00",
+    "command": [
+      "systemctl",
+      "set-property",
+      "--runtime",
+      "lab3-a",
+      "CPUQuota=57%"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:06:53.114960+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 2000000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 232232,\n  \"started\": \"2026-11-10T10:03:30+08:00\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:06:53.120984+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "CPUQuotaPerSecUSec",
+      "-p",
+      "CPUQuotaPeriodUSec",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=232232\nCPUQuotaPerSecUSec=570ms\nCPUQuotaPeriodUSec=infinity\nMemoryMax=268435456\nEnvironment=\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:07:34.234205+08:00",
+    "command": [
+      "scripts/run.sh",
+      "a2-q57",
+      "-url",
+      "http://127.0.0.1:8081/api/courses/1",
+      "-rates",
+      "93,93",
+      "-step",
+      "20s"
+    ],
+    "exit_code": 0
+  },
+  {
+    "time": "2026-11-10T10:07:36.245498+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:07:37.258021+08:00",
+    "command": [
+      "systemd-run",
+      "--unit=lab3-a",
+      "-p",
+      "CPUQuota=50%",
+      "-p",
+      "MemoryMax=256M",
+      "--setenv=GOMAXPROCS=1",
+      "/root/lab3/bin/enrolld",
+      "-addr",
+      "127.0.0.1:8081",
+      "-data",
+      "/root/lab3/data/a",
+      "-work",
+      "2000000"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Running as unit: lab3-a.service; invocation ID: 6ce46c3f22c64803974281eca8b97fec\n"
+  },
+  {
+    "time": "2026-11-10T10:07:40.264223+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 2000000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 1,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 233285,\n  \"started\": \"2026-11-10T10:07:37+08:00\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:07:40.270528+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "CPUQuotaPerSecUSec",
+      "-p",
+      "CPUQuotaPeriodUSec",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=233285\nCPUQuotaPerSecUSec=500ms\nCPUQuotaPeriodUSec=infinity\nMemoryMax=268435456\nEnvironment=GOMAXPROCS=1\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:08:21.385264+08:00",
+    "command": [
+      "scripts/run.sh",
+      "a2-gmp1",
+      "-url",
+      "http://127.0.0.1:8081/api/courses/1",
+      "-rates",
+      "93,93",
+      "-step",
+      "20s"
+    ],
+    "exit_code": 0
+  }
+]

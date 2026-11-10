@@ -1,0 +1,15 @@
+{
+  "time": "2026-11-10T10:12:13.234353+08:00",
+  "lab3-a": {
+    "state": "inactive",
+    "exit_code": 4
+  },
+  "lab3-prometheus": {
+    "state": "active",
+    "exit_code": 0
+  },
+  "lab3-node-exporter": {
+    "state": "active",
+    "exit_code": 0
+  }
+}
