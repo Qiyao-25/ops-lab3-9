@@ -1,0 +1,5 @@
+ControlGroup=/system.slice/lab3-a.service
+CPUQuotaPerSecUSec=infinity
+MemoryMax=209715200
+MemorySwapMax=0
+Environment=
