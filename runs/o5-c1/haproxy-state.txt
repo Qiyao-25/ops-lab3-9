@@ -1,0 +1,10 @@
+摘自 /tmp/o5-haproxy.log。状态行本身没有时间戳，时间取自紧挨着的上一条请求。
+
+10/Nov/2026:19:36:20.152 Server be/s8101 is DOWN, reason: Layer4 connection problem, info: "Connection refused", check duration: 0ms. 2 active and 0 backup servers left.
+10/Nov/2026:19:37:40.266 Server be/s8101 is UP, reason: Layer7 check passed, code: 200, check duration: 0ms. 3 active and 0 backup servers online.
+10/Nov/2026:19:38:02.594 Server be/s8102 is DOWN, reason: Layer7 timeout, check duration: 1000ms. 2 active and 0 backup servers left. 113 sessions active.
+10/Nov/2026:19:38:20.616 Server be/s8102 is UP, reason: Layer7 check passed, code: 200, check duration: 0ms. 3 active and 0 backup servers online.
+
+对照 marks.csv：kill 8101 于 19:36:17.195（负载开始后 64.2 秒），pause 8102 于 19:37:57.222（164.2 秒），resume 于 19:38:17.236。
+检出：kill 后约 3.0 秒 DOWN，pause 后约 5.4 秒 DOWN。resume 后约 3.4 秒 UP。kill 到 UP 为 83.1 秒。
+timeline.csv 错误：t+63–66 共 157 个（kill），t+163–169 共 300 个（pause），合计 457。

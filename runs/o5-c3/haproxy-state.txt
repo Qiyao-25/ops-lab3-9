@@ -1,0 +1,4 @@
+摘自 /tmp/o5-haproxy.log。本次负载 19:45:36 至 19:49:36 之间没有 Server is DOWN / is UP。
+
+对照 marks.csv：slow 8102 到 14% 于 19:46:39.073（负载开始后 63.1 秒），restore 到 25% 于 19:48:39.095（183.1 秒）。
+timeline.csv：错误 0，没有 p99 > 200 ms 的秒。全站 p99 29.47 ms，max 181.71 ms。
