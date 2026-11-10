@@ -1,0 +1,8 @@
+{
+  "calibration_run": "runs/a2-base",
+  "calibration_step": "2",
+  "cpu_ms_per_req": 4.27909,
+  "rate": 93,
+  "estimated_cores": 0.39795537000000003,
+  "improved_quota_percent": 57
+}

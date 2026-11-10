@@ -76,12 +76,12 @@ GOMAXPROCS=2，忙线程 2 个，计数 10.1 秒
 本组写的节流比例查询（与 `deploy/queries-red.txt` 一致）：
 
 ```text
-throttle_ratio      <填写>
+throttle_ratio      rate(cgroup_cpu_throttled_periods_total{job="enrolld"}[${window}]) / rate(cgroup_cpu_periods_total{job="enrolld"}[${window}])
 ```
 
-配额 100% 时测得的每请求 CPU：<填写> ms（`runs/<名字>/red.csv` 的 `cpu_ms_per_req`）；据此选定的到达率：<填写> 请求/秒，平均约 <填写> 核。
+配额 100% 时测得的每请求 CPU：4.27909 ms（`runs/a2-base/red.csv` 第 2 阶段）；据此选定 R=93 请求/秒，预计平均约 0.397955 核。
 
-预测（配额改为 50% 之前写）：平均用量低于配额，p99 会不会变？节流比例大约多少？<填写>
+预测（配额改为 50% 之前写）：基线 60 请求/秒阶段每请求 CPU 为 4.27909 ms，选 R=93 请求/秒，估计平均用核 0.397955，低于 0.5 核。配额 100% 的同到达率对照会补测 a2-base-r。预测：配额降到 50% 后，默认 GOMAXPROCS 仍为 2；Poisson 到达存在短时聚集，两个工作线程可更快消耗 100 ms 周期内共享的 50 ms CPU 预算，即使长期平均不到 0.5 核，仍可能节流并抬高 p99。预计节流周期比例约 10%～40%，p99 从基线约 10 ms 增至数十 ms，精确比例受到达过程和测量窗口影响。改法一按平均用量估算峰值并除以 0.7：0.397955/0.7=0.568508 核，向上取整为 CPUQuota=57%，预计降低节流与 p99，但增加配额预算。改法二保持 50% 配额并设置 GOMAXPROCS=1，预计降低并行突发对预算的快速消耗，p99 改善，但牺牲并行能力，负载更高时可能转为运行时排队；不保证完全消除节流。两种改法均使用同一 R、相同时长与默认随机种子。
 
 各次实验的数据（`scripts/table.sh runs/<名字> ok_rps p50_ms p99_ms server_p99_ms gomaxprocs cg_limit_cores cg_cpu_cores throttle_ratio throttled_s_per_s`，每次一张表）：
 
