@@ -1,0 +1,25 @@
+{
+  "request": {
+    "query": "max_over_time(http_inflight_requests{job=\"enrolld\",route=\"/api/report\"}[3s])",
+    "time": 1794279078
+  },
+  "response": {
+    "status": "success",
+    "data": {
+      "resultType": "vector",
+      "result": [
+        {
+          "metric": {
+            "instance": "127.0.0.1:8081",
+            "job": "enrolld",
+            "route": "/api/report"
+          },
+          "value": [
+            1794279078,
+            "13"
+          ]
+        }
+      ]
+    }
+  }
+}

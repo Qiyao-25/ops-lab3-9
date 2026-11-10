@@ -1,0 +1,11 @@
+{
+  "target_rps": 20,
+  "baseline_rss_mib": 8.4375,
+  "observed_pre_oom_inflight_max": 13.0,
+  "planning_inflight_max": 20,
+  "planning_rule": "max(observed peak, ceil(lambda*W + 3*sqrt(lambda*W)))",
+  "raised_limit_mib": 362,
+  "report_max": 10,
+  "bounded_estimate_mib": 168.4375,
+  "note": "Observed peak is sampled, not an absolute maximum; planning count adds burst reserve."
+}
