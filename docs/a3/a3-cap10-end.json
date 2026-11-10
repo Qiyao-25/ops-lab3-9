@@ -1,0 +1,9 @@
+{
+  "time": "2026-11-10T10:55:34.568568+08:00",
+  "systemd": "MainPID=242689\nResult=success\nExecMainStatus=0\nMemoryMax=209715200\nMemorySwapMax=0\nEnvironment=\nActiveState=active\n",
+  "memory.current": "173068288\n",
+  "memory.peak": "173649920\n",
+  "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "memory.swap.max": "0\n",
+  "memory.max": "209715200\n"
+}

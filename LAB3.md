@@ -22,7 +22,7 @@
 
 Prometheus 的 `/-/ready` 检查成功；`/api/v1/targets` 返回 `status=success`，`node` 为 `up`，`enrolld`、`lbd` 为 `down`（尚未启动，符合任务 0 预期）。`instances` 使用空的 `data/targets.json`，待后续 scaler 更新。验证原文见 [targets.json](docs/task0/targets.json)、[node-up.json](docs/task0/node-up.json)、[prometheus-ready.txt](docs/task0/prometheus-ready.txt)。
 
-监控以 systemd 临时服务 `lab3-prometheus.service` 和 `lab3-node-exporter.service` 在后台运行，SSH 断开后仍运行；启动方式、状态、重启与停止命令见 [docs/task0/README.md](docs/task0/README.md)。仓库内不提交 `bin/`、`tools/`、`data/`。目前已完成任务 0、A1 与 A2；其余实验的预测与测量栏保持待填。
+监控以 systemd 临时服务 `lab3-prometheus.service` 和 `lab3-node-exporter.service` 在后台运行，SSH 断开后仍运行；启动方式、状态、重启与停止命令见 [docs/task0/README.md](docs/task0/README.md)。仓库内不提交 `bin/`、`tools/`、`data/`。目前已完成任务 0 与任务 A（A1～A3）；其余实验的预测与测量栏保持待填。
 
 ## 2. 任务 A：配额，节流与 OOM
 
@@ -139,15 +139,70 @@ throttle_ratio      rate(cgroup_cpu_throttled_periods_total{job="enrolld"}[${win
 
 预测（测量之前写）：每请求实际分配 8 MiB 并保持至少 0.5 秒。用 Little 定律估计到达率 10、20、30 请求/秒时平均在途数分别为 5、10、15；这不等于最大值。Poisson 到达无确定的并发上界，按均值加 3 倍标准差粗估短时高位约为 12、20、27 个，作为测量前预测而非硬上界。启动后空闲 RSS 实测 8.4375 MiB，仅计算活跃缓冲区时平均 RSS 粗估约 48.44、88.44、128.44 MiB；考虑 GOGC=100 下 GC 前的堆增长余量，用基线加 2 倍缓冲区估算约 88.44、168.44、248.44 MiB。GC 的 2 倍是容量估算，不是 RSS 的精确上界。预测 10 请求/秒通常可存活，20 请求/秒可能因随机并发峰值和尚未回收的对象提前 OOM（主预测在第二阶段被杀），30 请求/秒风险更高。MemoryMax=200M、MemorySwapMax=0，预期结果为 oom-kill/SIGKILL。基线压测按指导书原命令运行，若被杀后 loadgen 提前停止，保留其实际输出，不伪造后续阶段。改法一以 20 请求/秒为目标，测得并发峰值后结合 GC 余量计算新上限并再加约 10% 安全余量；改法二保持 200 MiB 上限，按并发上限×8 MiB×2+基线<200 MiB 选择 report-max，超额请求预计快速返回 503，以牺牲接收率保护进程。
 
-<粘贴三次实验的表格（`scripts/table.sh runs/<名字> ok_rps error_rate p99_ms inflight_avg report_inflight_max rss_max_mb heap_max_mb mem_current_max_mb mem_limit_mb`）>
+三次实验表格（scripts/table.sh 原样生成；内存列单位 MiB，空白表示没有查询到数据）：
 
-被杀的证据（`systemctl show -p ActiveState,Result,ExecMainStatus lab3-a` 和 `journalctl -u lab3-a` 的相关行，`dmesg` 或 `/var/log/kern.log` 中的 oom-kill 行）：
+**`runs/a3-oom`：**
+
+| step | target_rps | ok_rps | error_rate | p99_ms | inflight_avg | report_inflight_max | rss_max_mb | heap_max_mb | mem_current_max_mb | mem_limit_mb |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 10 | 9.1 | 0.0000 | 505.54 | 4.13333 | 7 | 135.336 | 97.3625 | 130.281 | 200 |
+| 2 | 20 | 1.8 | 0.9091 | 505.55 | - | - | - | - | - | - |
+| all | - | 5.5 | 0.6228 | 505.54 | - | - | - | - | - | - |
+
+
+**`runs/a3-limit362`：**
+
+| step | target_rps | ok_rps | error_rate | p99_ms | inflight_avg | report_inflight_max | rss_max_mb | heap_max_mb | mem_current_max_mb | mem_limit_mb |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 10 | 9.1 | 0.0000 | 505.49 | 4.53333 | 7 | 130.785 | 121.361 | 125.695 | 362 |
+| 2 | 20 | 19.8 | 0.0000 | 505.42 | 10.0667 | 18 | 298.219 | 209.515 | 293.5 | 362 |
+| 3 | 30 | 1.8 | 0.9422 | 505.75 | - | - | - | - | - | - |
+| all | - | 10.2 | 0.4888 | 505.49 | - | - | - | - | - | - |
+
+
+**`runs/a3-cap10`：**
+
+| step | target_rps | ok_rps | error_rate | p99_ms | inflight_avg | report_inflight_max | rss_max_mb | heap_max_mb | mem_current_max_mb | mem_limit_mb |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 10 | 9.1 | 0.0000 | 505.68 | 4.53333 | 7 | 137.719 | 121.406 | 132.688 | 200 |
+| 2 | 20 | 15.4 | 0.2222 | 505.48 | 8.26667 | 10 | 170.09 | 121.409 | 165.086 | 200 |
+| 3 | 30 | 17.9 | 0.4270 | 504.76 | 9.33333 | 10 | 170.363 | 153.431 | 165.359 | 200 |
+| all | - | 14.1 | 0.2948 | 505.37 | - | - | - | - | - | - |
+
+
+被杀证据（首次 200 MiB 基线）：
 
 ```text
-<粘贴>
+Result=oom-kill
+ExecMainStatus=9
+ActiveState=failed
 ```
 
-两种改法：按最坏情况定的 limit 是 <填写>（算式：<填写>）；限制并发时 `-report-max` 取 <填写>（依据：<填写>）。
+相关原文见 [systemd](docs/a3/oom-systemd.txt)、[服务日志](docs/a3/all-experiment-journal.txt)、[内核 OOM 日志](docs/a3/all-experiment-oom-kernel.txt)。
+
+
+**执行与缺失数据说明：** 三组均使用每请求 8 MiB、保持 500 ms 的报表接口；主机无 swap，且均设置 MemorySwapMax=0，不沿用 A2 的 CPU 配额或 GOMAXPROCS 覆盖。初始限制 200 MiB、不限报表并发，基线在第二阶段开始约 2 秒后 OOM。该阶段 396 个请求仅成功 36 个，其余 360 个为连接错误；脚本默认在成功比例过低时停止，所以 30 请求/秒阶段未执行。没有手工补写第三阶段。
+
+scripts/run.sh 的服务端查询默认剔除阶段前 5 秒，基线死亡时间更早，因此第二阶段 red.csv 为空，metrics-end.txt 也因进程已死而为空；空值不能当作零。补查死亡前 3 秒的在途数采样最大值为 13，原始查询、查询时间与结果存于 docs/a3/pre-oom-inflight-query.json。raised-limit 的第三阶段同样在约 2 秒后死亡，第三阶段服务端表为空，原因相同。
+
+**选值：** 空闲 RSS 基线为 8.4375 MiB。以 20 请求/秒为目标，平均并发约 20×0.5=10；因 Prometheus 采样可能漏过峰值，计划并发取 max(死亡前采样峰值 13, ceil(10+3√10))=20。后者只是短时高位的工程估计，并非整段实验的确定上界。按 GC 余量因子 2 再加约 10%：MemoryMax=ceil((8.4375+20×8×2)×1.1)=362 MiB。限制并发方案额外预留 10% 总内存预算，取 report-max=floor((200×0.9−8.4375)/(8×2))=10；估算占用 8.4375+10×8×2=168.4375 MiB<200 MiB。两个选值在改法测量前独立提交，见 docs/a3/fix-prediction.md、selection.json。
+
+**结果与分析：**
+
+- 基线在 10 请求/秒阶段全部成功，平均在途采样值 4.13333，RSS 峰值 135.336 MiB。第二阶段出现 OOM，systemd 的 Result=oom-kill、ExecMainStatus=9 和内核 CONSTRAINT_MEMCG 记录互相印证，符合测量前主预测。
+- 提高到 362 MiB 后，20 请求/秒阶段 396/396 请求成功，平均在途 10.0667、采样并发峰值 18、RSS 峰值 298.219 MiB、cgroup 当前内存采样峰值 293.5 MiB。原先 200 MiB 的预算不足以支持这段负载。用观测峰值估计 8.4375+18×8×2≈296.44 MiB，与该阶段 RSS 峰值量级接近，但这不是逐时刻等式：各项峰值未必同时发生。
+- 362 MiB 在 30 请求/秒阶段再次 OOM，623 个请求成功 36 个，其余 587 个为连接错误。该上限是按 20 请求/秒目标估算并验证的，不适用于更高或任意突发负载。不能仅因提高过上限，就认定 OOM 已在所有条件下消除。
+- 200 MiB、report-max=10 的方案全程存活，memory.events 的 oom_kill=0。10 请求/秒全部成功；20 请求/秒成功 308/396（77.78%），88 个返回 503；30 请求/秒成功 357/623（57.30%），266 个返回 503。两阶段采样并发峰值均为 10，RSS 峰值分别为 170.09、170.363 MiB，cgroup 当前内存峰值分别为 165.086、165.359 MiB。全程 1201 个请求中成功 847 个、503 共 354 个，无连接错误或超时。保护进程的代价是主动拒绝超额请求，不能把拒绝数忽略成全程服务成功。
+
+Little 定律使用平均耗时，平均并发 5/10/15 不是峰值，也不是最大内存需求。8 MiB 缓冲区在 handler 返回后才变为可回收，Go 不会逐请求立即回收并向操作系统归还所有页面；GC 周期内还会存在尚未回收对象、堆余量和运行时开销。GOGC=100 的约 2 倍因子描述堆目标的粗略容量关系，既不是 RSS 精确公式，也不是内存硬上界。RSS 与 cgroup 的计费口径不同，MemoryMax 约束的是后者；因此要结合 memory.current、memory.events 和内核证据判断。
+
+MemoryMax 仅设置内存使用硬限制；MemorySwapMax=0 另外禁止该 cgroup 使用 swap，防止超出的匿名页换出后先表现为变慢，干扰 OOM 对照。当前主机本身无 swap，这一设置仍明确了复现实验的条件。
+
+提高上限适合必须接收目标峰值、且资源预算允许的情形，需要按更高计划峰值重新定容量；限制并发适合资源预算固定、允许快速拒绝超额负载的情形，需要结合重试退避或上游限流。两者都不等于修复业务中的真实内存泄漏；本实验主要是并发分配与 GC 回收余量造成的容量问题。
+
+**口径与局限：** 客户端成功请求 p99 均约 505 ms，与主动保持 500 ms 的工作负载一致；进程死亡导致的连接错误和主动 503 均不计入“成功请求延迟”分位数，因此不能只看 p99 判断服务是否可用。server_p99_ms 约 995 ms 来自 0.5～1 秒直方图桶内插，不能当成客户端真实 p99。脚本默认 SLO=50 ms，本接口刻意保持 500 ms，slo_good=0 是这一阈值下的正常结果，不代表全部请求报错。每种配置只测一轮，服务端每秒采样还会漏掉瞬时峰值；全程统计覆盖时长不同（基线提前停止），所以主要按相同到达率阶段对照，不能直接比较三组全程成功率来判定改法优劣。
+
+参考：[Go GC 指南](https://go.dev/doc/gc-guide)、[Linux cgroup v2 内存控制器](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html)。原始实验数据未编辑；执行参数、状态与两次 OOM 日志保存于 docs/a3/。
 
 ## 3. 任务 B：伸缩控制环
 

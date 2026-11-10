@@ -1,0 +1,4 @@
+{
+  "time": "2026-11-10T10:54:28.968595+08:00",
+  "systemd": "MainPID=0\nResult=oom-kill\nExecMainStatus=9\nMemoryMax=379584512\nMemorySwapMax=0\nEnvironment=\nActiveState=failed\n"
+}

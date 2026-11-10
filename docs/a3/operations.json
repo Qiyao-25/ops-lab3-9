@@ -1,0 +1,236 @@
+[
+  {
+    "time": "2026-11-10T10:53:23.798105+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:53:23.802508+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:53:24.813253+08:00",
+    "command": [
+      "systemd-run",
+      "--unit=lab3-a",
+      "-p",
+      "MemoryMax=362M",
+      "-p",
+      "MemorySwapMax=0",
+      "/root/lab3/bin/enrolld",
+      "-addr",
+      "127.0.0.1:8081",
+      "-data",
+      "/root/lab3/data/a"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Running as unit: lab3-a.service; invocation ID: 5c4e968301694a018a0a583cbb09edf9\n"
+  },
+  {
+    "time": "2026-11-10T10:53:27.819861+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=242388\nResult=success\nExecMainStatus=0\nMemoryMax=379584512\nMemorySwapMax=0\nEnvironment=\nActiveState=active\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:53:27.826042+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 200000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 242388,\n  \"started\": \"2026-11-10T10:53:24+08:00\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:54:28.968300+08:00",
+    "command": [
+      "scripts/run.sh",
+      "a3-limit362",
+      "-url",
+      "http://127.0.0.1:8081/api/report?mb=8&ms=500",
+      "-rates",
+      "10,20,30",
+      "-step",
+      "20s"
+    ],
+    "exit_code": 0
+  },
+  {
+    "time": "2026-11-10T10:54:28.973582+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=0\nResult=oom-kill\nExecMainStatus=9\nMemoryMax=379584512\nMemorySwapMax=0\nEnvironment=\nActiveState=failed\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:54:28.978954+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:54:28.983144+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:54:29.994477+08:00",
+    "command": [
+      "systemd-run",
+      "--unit=lab3-a",
+      "-p",
+      "MemoryMax=200M",
+      "-p",
+      "MemorySwapMax=0",
+      "/root/lab3/bin/enrolld",
+      "-addr",
+      "127.0.0.1:8081",
+      "-data",
+      "/root/lab3/data/a",
+      "-report-max",
+      "10"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Running as unit: lab3-a.service; invocation ID: aa435bd0fe6343ca85a7601e5365586a\n"
+  },
+  {
+    "time": "2026-11-10T10:54:33.000879+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=242689\nResult=success\nExecMainStatus=0\nMemoryMax=209715200\nMemorySwapMax=0\nEnvironment=\nActiveState=active\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:54:33.007045+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "exit_code": 0,
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 200000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 10,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 242689,\n  \"started\": \"2026-11-10T10:54:29+08:00\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "time": "2026-11-10T10:55:34.568130+08:00",
+    "command": [
+      "scripts/run.sh",
+      "a3-cap10",
+      "-url",
+      "http://127.0.0.1:8081/api/report?mb=8&ms=500",
+      "-rates",
+      "10,20,30",
+      "-step",
+      "20s"
+    ],
+    "exit_code": 0
+  },
+  {
+    "time": "2026-11-10T10:55:34.573515+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MainPID",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "exit_code": 0,
+    "stdout": "MainPID=242689\nResult=success\nExecMainStatus=0\nMemoryMax=209715200\nMemorySwapMax=0\nEnvironment=\nActiveState=active\n",
+    "stderr": ""
+  }
+]

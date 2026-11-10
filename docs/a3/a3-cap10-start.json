@@ -1,0 +1,31 @@
+{
+  "time": "2026-11-10T10:54:32.994953+08:00",
+  "systemd": "MainPID=242689\nResult=success\nExecMainStatus=0\nMemoryMax=209715200\nMemorySwapMax=0\nEnvironment=\nActiveState=active\n",
+  "memory.current": "2985984\n",
+  "memory.peak": "3440640\n",
+  "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "memory.swap.max": "0\n",
+  "memory.max": "209715200\n",
+  "config": {
+    "addr": "127.0.0.1:8081",
+    "version": "v1",
+    "work": 200000,
+    "pool": 32,
+    "db_ms": 2,
+    "pool_timeout": "1s",
+    "sync": "each",
+    "sync_interval": "1s",
+    "data": "/root/lab3/data/a",
+    "warmup": "0s",
+    "drain_delay": "2s",
+    "report_max": 10,
+    "leak_kb": 0,
+    "cgroup": "/sys/fs/cgroup/system.slice/lab3-a.service",
+    "go_version": "go1.26.9",
+    "gomaxprocs": 2,
+    "gogc": "",
+    "gomemlimit": "",
+    "pid": 242689,
+    "started": "2026-11-10T10:54:29+08:00"
+  }
+}

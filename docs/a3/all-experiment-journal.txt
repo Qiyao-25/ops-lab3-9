@@ -1,0 +1,13 @@
+2026-11-10T10:49:37+08:00 ecs-37fd systemd[1]: Started lab3-a.service - /root/lab3/bin/enrolld -addr 127.0.0.1:8081 -data /root/lab3/data/a.
+2026-11-10T10:49:37+08:00 ecs-37fd enrolld[241618]: 2026/11/10 10:49:37 enrolld v1 监听 127.0.0.1:8081；GOMAXPROCS=2；cgroup /sys/fs/cgroup/system.slice/lab3-a.service；预热 0s；读：work=200000、pool=32、db-ms=2；写：sync=each
+2026-11-10T10:51:17+08:00 ecs-37fd systemd[1]: lab3-a.service: A process of this unit has been killed by the OOM killer.
+2026-11-10T10:51:17+08:00 ecs-37fd systemd[1]: lab3-a.service: Main process exited, code=killed, status=9/KILL
+2026-11-10T10:51:17+08:00 ecs-37fd systemd[1]: lab3-a.service: Failed with result 'oom-kill'.
+2026-11-10T10:53:24+08:00 ecs-37fd systemd[1]: Started lab3-a.service - /root/lab3/bin/enrolld -addr 127.0.0.1:8081 -data /root/lab3/data/a.
+2026-11-10T10:53:24+08:00 ecs-37fd enrolld[242388]: 2026/11/10 10:53:24 enrolld v1 监听 127.0.0.1:8081；GOMAXPROCS=2；cgroup /sys/fs/cgroup/system.slice/lab3-a.service；预热 0s；读：work=200000、pool=32、db-ms=2；写：sync=each
+2026-11-10T10:54:09+08:00 ecs-37fd systemd[1]: lab3-a.service: A process of this unit has been killed by the OOM killer.
+2026-11-10T10:54:09+08:00 ecs-37fd systemd[1]: lab3-a.service: Main process exited, code=killed, status=9/KILL
+2026-11-10T10:54:09+08:00 ecs-37fd systemd[1]: lab3-a.service: Failed with result 'oom-kill'.
+2026-11-10T10:54:09+08:00 ecs-37fd systemd[1]: lab3-a.service: Consumed 1.266s CPU time, 3.2M memory peak, 0B memory swap peak.
+2026-11-10T10:54:29+08:00 ecs-37fd systemd[1]: Started lab3-a.service - /root/lab3/bin/enrolld -addr 127.0.0.1:8081 -data /root/lab3/data/a -report-max 10.
+2026-11-10T10:54:29+08:00 ecs-37fd enrolld[242689]: 2026/11/10 10:54:29 enrolld v1 监听 127.0.0.1:8081；GOMAXPROCS=2；cgroup /sys/fs/cgroup/system.slice/lab3-a.service；预热 0s；读：work=200000、pool=32、db-ms=2；写：sync=each
