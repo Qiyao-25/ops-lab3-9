@@ -1,0 +1,1 @@
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"group":"lab3","instance":"127.0.0.1:8101","job":"instances"},"value":[1794396735,"4"]},{"metric":{"group":"lab3","instance":"127.0.0.1:8103","job":"instances"},"value":[1794396735,"4"]},{"metric":{"group":"lab3","instance":"127.0.0.1:8102","job":"instances"},"value":[1794396735,"4"]}]}}

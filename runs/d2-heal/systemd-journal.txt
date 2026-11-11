@@ -1,0 +1,83 @@
+2026-11-11T19:25:54.303597+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:25:54.303687+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:25:54.303745+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Failed with result 'oom-kill'.
+2026-11-11T19:25:54.304056+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Consumed 7.651s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:25:54.446849+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:25:54.453869+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:25:54.453938+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Failed with result 'oom-kill'.
+2026-11-11T19:25:54.454156+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Consumed 7.658s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:25:54.559882+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:25:54.559972+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:25:54.560016+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Failed with result 'oom-kill'.
+2026-11-11T19:25:54.560856+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Consumed 7.666s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:25:56.407448+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Scheduled restart job, restart counter is at 1.
+2026-11-11T19:25:56.412045+08:00 ecs-37fd systemd[1]: Started lab3-inst-8103.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8103 -data /root/lab3-member4/data/inst-8103 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:25:56.420573+08:00 ecs-37fd enrolld[671896]: 2026/11/11 19:25:56 enrolld v1 监听 127.0.0.1:8103；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8103.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:25:56.658532+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Scheduled restart job, restart counter is at 1.
+2026-11-11T19:25:56.659226+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Scheduled restart job, restart counter is at 1.
+2026-11-11T19:25:56.669900+08:00 ecs-37fd systemd[1]: Started lab3-inst-8101.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8101 -data /root/lab3-member4/data/inst-8101 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:25:56.673081+08:00 ecs-37fd systemd[1]: Started lab3-inst-8102.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8102 -data /root/lab3-member4/data/inst-8102 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:25:56.677793+08:00 ecs-37fd enrolld[671906]: 2026/11/11 19:25:56 enrolld v1 监听 127.0.0.1:8101；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8101.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:25:56.683148+08:00 ecs-37fd enrolld[671909]: 2026/11/11 19:25:56 enrolld v1 监听 127.0.0.1:8102；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8102.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:27:49.990353+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:27:50.000351+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:27:50.000425+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Failed with result 'oom-kill'.
+2026-11-11T19:27:50.000653+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Consumed 7.639s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:27:52.158543+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Scheduled restart job, restart counter is at 2.
+2026-11-11T19:27:52.164455+08:00 ecs-37fd systemd[1]: Started lab3-inst-8103.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8103 -data /root/lab3-member4/data/inst-8103 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:27:52.173004+08:00 ecs-37fd enrolld[672617]: 2026/11/11 19:27:52 enrolld v1 监听 127.0.0.1:8103；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8103.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:27:52.950860+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:27:52.950932+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:27:52.950975+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Failed with result 'oom-kill'.
+2026-11-11T19:27:52.951241+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Consumed 7.655s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:27:53.014230+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:27:53.014312+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:27:53.014355+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Failed with result 'oom-kill'.
+2026-11-11T19:27:53.015047+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Consumed 7.661s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:27:55.158552+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Scheduled restart job, restart counter is at 2.
+2026-11-11T19:27:55.159098+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Scheduled restart job, restart counter is at 2.
+2026-11-11T19:27:55.165950+08:00 ecs-37fd systemd[1]: Started lab3-inst-8101.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8101 -data /root/lab3-member4/data/inst-8101 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:27:55.168937+08:00 ecs-37fd systemd[1]: Started lab3-inst-8102.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8102 -data /root/lab3-member4/data/inst-8102 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:27:55.177291+08:00 ecs-37fd enrolld[672692]: 2026/11/11 19:27:55 enrolld v1 监听 127.0.0.1:8101；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8101.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:27:55.181017+08:00 ecs-37fd enrolld[672693]: 2026/11/11 19:27:55 enrolld v1 监听 127.0.0.1:8102；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8102.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:29:43.330899+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:29:43.330972+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:29:43.331272+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Failed with result 'oom-kill'.
+2026-11-11T19:29:43.331549+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Consumed 7.647s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:29:45.406883+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Scheduled restart job, restart counter is at 3.
+2026-11-11T19:29:45.411170+08:00 ecs-37fd systemd[1]: Started lab3-inst-8103.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8103 -data /root/lab3-member4/data/inst-8103 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:29:45.422257+08:00 ecs-37fd enrolld[673360]: 2026/11/11 19:29:45 enrolld v1 监听 127.0.0.1:8103；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8103.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:29:49.332449+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:29:49.332562+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Failed with result 'signal'.
+2026-11-11T19:29:49.332792+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Consumed 7.638s CPU time, 63.4M memory peak, 0B memory swap peak.
+2026-11-11T19:29:49.534268+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:29:49.534345+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:29:49.534390+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Failed with result 'oom-kill'.
+2026-11-11T19:29:49.534646+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Consumed 7.665s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:29:51.407012+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Scheduled restart job, restart counter is at 3.
+2026-11-11T19:29:51.413180+08:00 ecs-37fd systemd[1]: Started lab3-inst-8101.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8101 -data /root/lab3-member4/data/inst-8101 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:29:51.420493+08:00 ecs-37fd enrolld[673412]: 2026/11/11 19:29:51 enrolld v1 监听 127.0.0.1:8101；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8101.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:29:51.658540+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Scheduled restart job, restart counter is at 3.
+2026-11-11T19:29:51.663998+08:00 ecs-37fd systemd[1]: Started lab3-inst-8102.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8102 -data /root/lab3-member4/data/inst-8102 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:29:51.670628+08:00 ecs-37fd enrolld[673422]: 2026/11/11 19:29:51 enrolld v1 监听 127.0.0.1:8102；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8102.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:31:31.431149+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:31:31.431232+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:31:31.431282+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Failed with result 'oom-kill'.
+2026-11-11T19:31:31.431552+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Consumed 7.604s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:31:33.658547+08:00 ecs-37fd systemd[1]: lab3-inst-8103.service: Scheduled restart job, restart counter is at 4.
+2026-11-11T19:31:33.664044+08:00 ecs-37fd systemd[1]: Started lab3-inst-8103.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8103 -data /root/lab3-member4/data/inst-8103 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:31:33.672415+08:00 ecs-37fd enrolld[674077]: 2026/11/11 19:31:33 enrolld v1 监听 127.0.0.1:8103；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8103.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:31:43.532030+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:31:43.532118+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:31:43.532168+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Failed with result 'oom-kill'.
+2026-11-11T19:31:43.532490+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Consumed 7.647s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:31:44.773552+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: A process of this unit has been killed by the OOM killer.
+2026-11-11T19:31:44.773638+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Main process exited, code=killed, status=9/KILL
+2026-11-11T19:31:44.773683+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Failed with result 'oom-kill'.
+2026-11-11T19:31:44.773994+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Consumed 7.669s CPU time, 63.9M memory peak, 0B memory swap peak.
+2026-11-11T19:31:45.658568+08:00 ecs-37fd systemd[1]: lab3-inst-8101.service: Scheduled restart job, restart counter is at 4.
+2026-11-11T19:31:45.663967+08:00 ecs-37fd systemd[1]: Started lab3-inst-8101.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8101 -data /root/lab3-member4/data/inst-8101 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:31:45.671959+08:00 ecs-37fd enrolld[674180]: 2026/11/11 19:31:45 enrolld v1 监听 127.0.0.1:8101；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8101.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each
+2026-11-11T19:31:46.908529+08:00 ecs-37fd systemd[1]: lab3-inst-8102.service: Scheduled restart job, restart counter is at 4.
+2026-11-11T19:31:46.913986+08:00 ecs-37fd systemd[1]: Started lab3-inst-8102.service - /root/lab3-member4/bin/enrolld -addr 127.0.0.1:8102 -data /root/lab3-member4/data/inst-8102 -version v1 -warmup 10s -work 1000000 -leak-kb 16.
+2026-11-11T19:31:46.920342+08:00 ecs-37fd enrolld[674190]: 2026/11/11 19:31:46 enrolld v1 监听 127.0.0.1:8102；GOMAXPROCS=1；cgroup /sys/fs/cgroup/system.slice/lab3-inst-8102.service；预热 10s；读：work=1000000、pool=32、db-ms=2；写：sync=each

@@ -1,0 +1,2 @@
+Query: changes(process_start_time_seconds{job="instances"}[10m])
+Evaluation time: 2026-11-11T19:32:15+08:00 (1794396735)
