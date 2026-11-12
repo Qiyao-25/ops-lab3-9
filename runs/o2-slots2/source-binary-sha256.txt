@@ -1,0 +1,2 @@
+4ffbdd9a48d23775f777bef651ea60091ecc0324c92725ec12d7d66ea4e30fb6  cmd/scaler/main.go
+338fe07282d03a0b738ccfa3bd54f5c0a5f92ba2d740a6304fc0443b14aec8c7  /root/lab3/runs/o2-runtime/scaler

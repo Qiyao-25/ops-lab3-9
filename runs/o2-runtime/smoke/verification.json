@@ -1,0 +1,25 @@
+{
+  "smoke_passed": true,
+  "results": [
+    {
+      "instance": "127.0.0.1:8101",
+      "create_to_start_s": 1.018,
+      "node_wait_s": 0
+    },
+    {
+      "instance": "127.0.0.1:8102",
+      "create_to_start_s": 1.037,
+      "node_wait_s": 0
+    },
+    {
+      "instance": "127.0.0.1:8103",
+      "create_to_start_s": 4.024,
+      "node_wait_s": 3.011
+    },
+    {
+      "instance": "127.0.0.1:8104",
+      "create_to_start_s": 4.041,
+      "node_wait_s": 3.011
+    }
+  ]
+}

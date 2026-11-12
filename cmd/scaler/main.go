@@ -75,6 +75,11 @@ type options struct {
 
 	sync, downWindow, pull time.Duration
 	schedule               []schedEntry
+
+	Slots     int    `json:"slots"`
+	NodeDelay string `json:"node_delay"`
+
+	nodeDelay time.Duration
 }
 
 type schedEntry struct {
@@ -101,6 +106,8 @@ type instance struct {
 	assumeUp  bool // 登记到 lbd 时直接视为健康（任务 D1 的“直接替换”）
 	restarts  int
 	startedAt time.Time
+
+	nodeUntil time.Time
 }
 
 type scaler struct {
@@ -149,7 +156,10 @@ func main() {
 	flag.StringVar(&o.LB, "lb", "http://127.0.0.1:8090", "lbd 的管理接口")
 	flag.StringVar(&o.Prom, "prom", "http://127.0.0.1:9090", "Prometheus 的地址")
 	flag.StringVar(&o.Admin, "admin", "127.0.0.1:8091", "scaler 自己的管理接口")
+	flag.IntVar(&o.Slots, "slots", 0, "已有空位数；0 表示不模拟空位限制")
+	flag.DurationVar(&o.nodeDelay, "node-delay", 240*time.Second, "超出已有空位的新实例额外等待时间")
 	flag.Parse()
+	o.NodeDelay = o.nodeDelay.String()
 	o.Sync, o.DownWindow, o.Pull = o.sync.String(), o.downWindow.String(), o.pull.String()
 	o.Started = time.Now().Format(time.RFC3339)
 	if err := o.check(); err != nil {
@@ -181,6 +191,9 @@ func main() {
 }
 
 func (o *options) check() error {
+	if o.Slots < 0 || o.nodeDelay < 0 {
+		return errors.New("-slots 和 -node-delay 不能小于 0")
+	}
 	switch o.Mode {
 	case "fixed":
 		if o.Replicas < 1 {
@@ -364,6 +377,13 @@ func (s *scaler) reconcile() {
 	for _, in := range s.insts {
 		switch in.state {
 		case stPulling:
+			if !in.nodeUntil.IsZero() {
+				if now.Before(in.nodeUntil) {
+					continue
+				}
+				s.logInst(in, "node-ready", "模拟节点等待结束，开始拉镜像")
+				in.nodeUntil = time.Time{}
+			}
 			if !now.Before(in.pullUntil) {
 				if err := s.startUnit(in); err != nil {
 					s.logInst(in, "failed", err.Error())
@@ -522,6 +542,11 @@ func (s *scaler) create(version string, assumeUp bool, why string) *instance {
 		version: version, state: stPulling, created: now, pullUntil: now.Add(s.opt.pull), assumeUp: assumeUp}
 	s.insts = append(s.insts, in)
 	s.logInst(in, "created", why)
+	if s.opt.Slots > 0 && s.activeCount() > s.opt.Slots && s.opt.nodeDelay > 0 {
+		in.nodeUntil = now.Add(s.opt.nodeDelay)
+		in.pullUntil = in.nodeUntil.Add(s.opt.pull)
+		s.logInst(in, "node-wait", fmt.Sprintf("已有空位 %d 个；额外等待 %s", s.opt.Slots, s.opt.nodeDelay))
+	}
 	return in
 }
 

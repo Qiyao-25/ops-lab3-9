@@ -1,0 +1,59 @@
+unix_ms,time,backend,event,detail
+1794500659394,00:24:19.394,127.0.0.1:8101,added,init=down
+1794500659414,00:24:19.414,127.0.0.1:8102,added,init=down
+1794500721395,00:25:21.395,127.0.0.1:8101,up,连续成功 2 次
+1794500721415,00:25:21.415,127.0.0.1:8102,up,连续成功 2 次
+1794500902895,00:28:22.895,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500902914,00:28:22.914,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500904436,00:28:24.436,127.0.0.1:8102,up,连续成功 2 次
+1794500905396,00:28:25.396,127.0.0.1:8101,up,连续成功 2 次
+1794500907915,00:28:27.915,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500908895,00:28:28.895,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500911415,00:28:31.415,127.0.0.1:8102,up,连续成功 2 次
+1794500912395,00:28:32.395,127.0.0.1:8101,up,连续成功 2 次
+1794500914418,00:28:34.418,127.0.0.1:8103,added,init=down
+1794500914915,00:28:34.915,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500916896,00:28:36.896,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500918416,00:28:38.416,127.0.0.1:8102,up,连续成功 2 次
+1794500921915,00:28:41.915,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500922395,00:28:42.395,127.0.0.1:8101,up,连续成功 2 次
+1794500925895,00:28:45.895,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500929413,00:28:49.413,127.0.0.1:8104,added,init=down
+1794500929414,00:28:49.414,127.0.0.1:8102,up,连续成功 2 次
+1794500932396,00:28:52.396,127.0.0.1:8101,up,连续成功 2 次
+1794500932914,00:28:52.914,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500935896,00:28:55.896,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500940414,00:29:00.414,127.0.0.1:8102,up,连续成功 2 次
+1794500940798,00:29:00.798,127.0.0.1:8101,up,连续成功 2 次
+1794500943915,00:29:03.915,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500946415,00:29:06.415,127.0.0.1:8102,up,连续成功 2 次
+1794500946895,00:29:06.895,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500949916,00:29:09.916,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500954396,00:29:14.396,127.0.0.1:8101,up,连续成功 2 次
+1794500956415,00:29:16.415,127.0.0.1:8102,up,连续成功 2 次
+1794500957897,00:29:17.897,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500959915,00:29:19.915,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500963395,00:29:23.395,127.0.0.1:8101,up,连续成功 2 次
+1794500964416,00:29:24.416,127.0.0.1:8102,up,连续成功 2 次
+1794500966895,00:29:26.895,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500967914,00:29:27.914,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500969397,00:29:29.397,127.0.0.1:8101,up,连续成功 2 次
+1794500971414,00:29:31.414,127.0.0.1:8102,up,连续成功 2 次
+1794500972896,00:29:32.896,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500974914,00:29:34.914,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500976419,00:29:36.419,127.0.0.1:8103,up,连续成功 2 次
+1794500978395,00:29:38.395,127.0.0.1:8101,up,连续成功 2 次
+1794500979920,00:29:39.920,127.0.0.1:8103,down,"连续失败 3 次：Get ""http://127.0.0.1:8103/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500980414,00:29:40.414,127.0.0.1:8102,up,连续成功 2 次
+1794500981895,00:29:41.895,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500983915,00:29:43.915,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500984396,00:29:44.396,127.0.0.1:8101,up,连续成功 2 次
+1794500984420,00:29:44.420,127.0.0.1:8103,up,连续成功 2 次
+1794500987896,00:29:47.896,127.0.0.1:8101,down,"连续失败 3 次：Get ""http://127.0.0.1:8101/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500987920,00:29:47.920,127.0.0.1:8103,down,"连续失败 3 次：Get ""http://127.0.0.1:8103/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500989415,00:29:49.415,127.0.0.1:8102,up,连续成功 2 次
+1794500990395,00:29:50.395,127.0.0.1:8101,up,连续成功 2 次
+1794500990420,00:29:50.420,127.0.0.1:8103,up,连续成功 2 次
+1794500991414,00:29:51.414,127.0.0.1:8104,up,连续成功 2 次
+1794500992915,00:29:52.915,127.0.0.1:8102,down,"连续失败 3 次：Get ""http://127.0.0.1:8102/readyz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1794500995416,00:29:55.416,127.0.0.1:8102,up,连续成功 2 次
