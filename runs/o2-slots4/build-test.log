@@ -1,0 +1,9 @@
+ok  	enroll-lab/cmd/enrolld	1.598s
+ok  	enroll-lab/cmd/lab3sum	0.003s
+ok  	enroll-lab/cmd/lbd	0.135s
+ok  	enroll-lab/cmd/loadgen	6.164s
+ok  	enroll-lab/cmd/promsteps	0.005s
+ok  	enroll-lab/cmd/scaler	0.002s
+ok  	enroll-lab/internal/metrics	0.004s
+
+CHECK_EXIT=0

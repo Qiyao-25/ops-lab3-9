@@ -1,0 +1,123 @@
+{
+  "status": "success",
+  "data": {
+    "activeTargets": [
+      {
+        "discoveredLabels": {
+          "__address__": "127.0.0.1:8101",
+          "__always_scrape_classic_histograms__": "false",
+          "__convert_classic_histograms_to_nhcb__": "false",
+          "__meta_filepath": "/root/lab3/runs/o2-runtime/state/targets.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "5s",
+          "__scrape_native_histograms__": "false",
+          "__scrape_timeout__": "5s",
+          "group": "lab3",
+          "job": "instances"
+        },
+        "labels": {
+          "group": "lab3",
+          "instance": "127.0.0.1:8101",
+          "job": "instances"
+        },
+        "scrapePool": "instances",
+        "scrapeUrl": "http://127.0.0.1:8101/metrics",
+        "globalUrl": "http://ecs-37fd:8101/metrics",
+        "lastError": "",
+        "lastScrape": "2026-11-13T00:25:50.140294953+08:00",
+        "lastScrapeDuration": 0.001341502,
+        "health": "up",
+        "scrapeInterval": "5s",
+        "scrapeTimeout": "5s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "127.0.0.1:8102",
+          "__always_scrape_classic_histograms__": "false",
+          "__convert_classic_histograms_to_nhcb__": "false",
+          "__meta_filepath": "/root/lab3/runs/o2-runtime/state/targets.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "5s",
+          "__scrape_native_histograms__": "false",
+          "__scrape_timeout__": "5s",
+          "group": "lab3",
+          "job": "instances"
+        },
+        "labels": {
+          "group": "lab3",
+          "instance": "127.0.0.1:8102",
+          "job": "instances"
+        },
+        "scrapePool": "instances",
+        "scrapeUrl": "http://127.0.0.1:8102/metrics",
+        "globalUrl": "http://ecs-37fd:8102/metrics",
+        "lastError": "",
+        "lastScrape": "2026-11-13T00:25:47.778479425+08:00",
+        "lastScrapeDuration": 0.000956952,
+        "health": "up",
+        "scrapeInterval": "5s",
+        "scrapeTimeout": "5s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "127.0.0.1:8090",
+          "__always_scrape_classic_histograms__": "false",
+          "__convert_classic_histograms_to_nhcb__": "false",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "1s",
+          "__scrape_native_histograms__": "false",
+          "__scrape_timeout__": "1s",
+          "job": "lbd"
+        },
+        "labels": {
+          "instance": "127.0.0.1:8090",
+          "job": "lbd"
+        },
+        "scrapePool": "lbd",
+        "scrapeUrl": "http://127.0.0.1:8090/metrics",
+        "globalUrl": "http://ecs-37fd:8090/metrics",
+        "lastError": "",
+        "lastScrape": "2026-11-13T00:25:52.423981194+08:00",
+        "lastScrapeDuration": 0.000377977,
+        "health": "up",
+        "scrapeInterval": "1s",
+        "scrapeTimeout": "1s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "127.0.0.1:9100",
+          "__always_scrape_classic_histograms__": "false",
+          "__convert_classic_histograms_to_nhcb__": "false",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "5s",
+          "__scrape_native_histograms__": "false",
+          "__scrape_timeout__": "5s",
+          "job": "node"
+        },
+        "labels": {
+          "instance": "127.0.0.1:9100",
+          "job": "node"
+        },
+        "scrapePool": "node",
+        "scrapeUrl": "http://127.0.0.1:9100/metrics",
+        "globalUrl": "http://ecs-37fd:9100/metrics",
+        "lastError": "",
+        "lastScrape": "2026-11-13T00:25:48.830698035+08:00",
+        "lastScrapeDuration": 0.008970852,
+        "health": "up",
+        "scrapeInterval": "5s",
+        "scrapeTimeout": "5s"
+      }
+    ],
+    "droppedTargets": [],
+    "droppedTargetCounts": {
+      "instances": 0,
+      "lbd": 0,
+      "node": 0
+    }
+  }
+}
