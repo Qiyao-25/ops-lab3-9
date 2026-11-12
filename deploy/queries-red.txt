@@ -31,3 +31,7 @@ rss_max_mb          max_over_time(process_resident_memory_bytes{job="enrolld"}[$
 heap_max_mb         max_over_time(go_heap_objects_bytes{job="enrolld"}[${window}]) / 1048576
 report_inflight_max max_over_time(http_inflight_requests{job="enrolld",route="/api/report"}[${window}])
 gc_per_s            rate(go_gc_cycles_total{job="enrolld"}[${window}])
+
+# O1 GC 与进程 CPU 对照
+gc_cpu_s_per_s     rate(go_gc_cpu_seconds_total{job="enrolld"}[${window}])
+process_cpu_cores  rate(process_cpu_seconds_total{job="enrolld"}[${window}])
