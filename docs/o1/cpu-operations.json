@@ -1,0 +1,229 @@
+[
+  {
+    "time": "2026-11-12T19:47:38.804482+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "Failed to stop lab3-a.service: Unit lab3-a.service not loaded.\n",
+    "returncode": 5
+  },
+  {
+    "time": "2026-11-12T19:47:38.808694+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "Failed to reset failed state of unit lab3-a.service: Unit lab3-a.service not loaded.\n",
+    "returncode": 1
+  },
+  {
+    "time": "2026-11-12T19:47:39.822491+08:00",
+    "command": [
+      "systemd-run",
+      "--unit=lab3-a",
+      "-p",
+      "MemoryMax=362M",
+      "-p",
+      "MemorySwapMax=0",
+      "/root/lab3-o1/bin/enrolld",
+      "-addr",
+      "127.0.0.1:8081",
+      "-data",
+      "/root/lab3-o1/data/a"
+    ],
+    "stdout": "",
+    "stderr": "Running as unit: lab3-a.service; invocation ID: 5d62ecce9e3d4fccb0f6735ad27ba5d6\n",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:47:42.829092+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 200000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3-o1/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 953851,\n  \"started\": \"2026-11-12T19:47:39+08:00\"\n}\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:47:42.848182+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "stdout": "MemoryMax=379584512\nMemorySwapMax=0\nEnvironment=\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:48:24.327096+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus"
+    ],
+    "stdout": "Result=success\nExecMainStatus=0\nActiveState=active\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:48:24.340429+08:00",
+    "command": [
+      "journalctl",
+      "-u",
+      "lab3-a",
+      "--since",
+      "2026-11-12 19:47:39",
+      "--no-pager",
+      "-o",
+      "short-iso"
+    ],
+    "stdout": "2026-11-12T19:47:39+08:00 ecs-37fd systemd[1]: Started lab3-a.service - /root/lab3-o1/bin/enrolld -addr 127.0.0.1:8081 -data /root/lab3-o1/data/a.\n2026-11-12T19:47:39+08:00 ecs-37fd enrolld[953851]: 2026/11/12 19:47:39 enrolld v1 监听 127.0.0.1:8081；GOMAXPROCS=2；cgroup /sys/fs/cgroup/system.slice/lab3-a.service；预热 0s；读：work=200000、pool=32、db-ms=2；写：sync=each\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:48:26.362581+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:48:26.366897+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "Failed to reset failed state of unit lab3-a.service: Unit lab3-a.service not loaded.\n",
+    "returncode": 1
+  },
+  {
+    "time": "2026-11-12T19:48:27.383292+08:00",
+    "command": [
+      "systemd-run",
+      "--unit=lab3-a",
+      "-p",
+      "MemoryMax=362M",
+      "-p",
+      "MemorySwapMax=0",
+      "--setenv=GOMEMLIMIT=170MiB",
+      "/root/lab3-o1/bin/enrolld",
+      "-addr",
+      "127.0.0.1:8081",
+      "-data",
+      "/root/lab3-o1/data/a"
+    ],
+    "stdout": "",
+    "stderr": "Running as unit: lab3-a.service; invocation ID: ec8ddb1c5af248798c59cce92bfbb7e4\n",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:48:30.389579+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 200000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3-o1/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"170MiB\",\n  \"pid\": 954060,\n  \"started\": \"2026-11-12T19:48:27+08:00\"\n}\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:48:30.408626+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "stdout": "MemoryMax=379584512\nMemorySwapMax=0\nEnvironment=GOMEMLIMIT=170MiB\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:49:11.885902+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus"
+    ],
+    "stdout": "Result=success\nExecMainStatus=0\nActiveState=active\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:49:11.889684+08:00",
+    "command": [
+      "journalctl",
+      "-u",
+      "lab3-a",
+      "--since",
+      "2026-11-12 19:48:27",
+      "--no-pager",
+      "-o",
+      "short-iso"
+    ],
+    "stdout": "2026-11-12T19:48:27+08:00 ecs-37fd systemd[1]: Started lab3-a.service - /root/lab3-o1/bin/enrolld -addr 127.0.0.1:8081 -data /root/lab3-o1/data/a.\n2026-11-12T19:48:27+08:00 ecs-37fd enrolld[954060]: 2026/11/12 19:48:27 enrolld v1 监听 127.0.0.1:8081；GOMAXPROCS=2；cgroup /sys/fs/cgroup/system.slice/lab3-a.service；预热 0s；读：work=200000、pool=32、db-ms=2；写：sync=each\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:49:13.907568+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:49:13.912020+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "Failed to reset failed state of unit lab3-a.service: Unit lab3-a.service not loaded.\n",
+    "returncode": 1
+  }
+]

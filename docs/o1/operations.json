@@ -1,0 +1,229 @@
+[
+  {
+    "time": "2026-11-12T19:44:31.317507+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "Failed to stop lab3-a.service: Unit lab3-a.service not loaded.\n",
+    "returncode": 5
+  },
+  {
+    "time": "2026-11-12T19:44:31.321558+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "Failed to reset failed state of unit lab3-a.service: Unit lab3-a.service not loaded.\n",
+    "returncode": 1
+  },
+  {
+    "time": "2026-11-12T19:44:32.336241+08:00",
+    "command": [
+      "systemd-run",
+      "--unit=lab3-a",
+      "-p",
+      "MemoryMax=200M",
+      "-p",
+      "MemorySwapMax=0",
+      "/root/lab3-o1/bin/enrolld",
+      "-addr",
+      "127.0.0.1:8081",
+      "-data",
+      "/root/lab3-o1/data/a"
+    ],
+    "stdout": "",
+    "stderr": "Running as unit: lab3-a.service; invocation ID: 08a5ed7152e946a0823fe41ce04a8a30\n",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:44:35.345331+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 200000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3-o1/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"\",\n  \"pid\": 953062,\n  \"started\": \"2026-11-12T19:44:32+08:00\"\n}\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:44:35.365201+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "stdout": "MemoryMax=209715200\nMemorySwapMax=0\nEnvironment=\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:45:16.520716+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus"
+    ],
+    "stdout": "Result=oom-kill\nExecMainStatus=9\nActiveState=failed\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:45:16.542847+08:00",
+    "command": [
+      "journalctl",
+      "-u",
+      "lab3-a",
+      "--since",
+      "2026-11-12 19:44:32",
+      "--no-pager",
+      "-o",
+      "short-iso"
+    ],
+    "stdout": "2026-11-12T19:44:32+08:00 ecs-37fd systemd[1]: Started lab3-a.service - /root/lab3-o1/bin/enrolld -addr 127.0.0.1:8081 -data /root/lab3-o1/data/a.\n2026-11-12T19:44:32+08:00 ecs-37fd enrolld[953062]: 2026/11/12 19:44:32 enrolld v1 监听 127.0.0.1:8081；GOMAXPROCS=2；cgroup /sys/fs/cgroup/system.slice/lab3-a.service；预热 0s；读：work=200000、pool=32、db-ms=2；写：sync=each\n2026-11-12T19:44:57+08:00 ecs-37fd systemd[1]: lab3-a.service: A process of this unit has been killed by the OOM killer.\n2026-11-12T19:44:58+08:00 ecs-37fd systemd[1]: lab3-a.service: Main process exited, code=killed, status=9/KILL\n2026-11-12T19:44:58+08:00 ecs-37fd systemd[1]: lab3-a.service: Failed with result 'oom-kill'.\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:45:16.548161+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:45:16.552751+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:45:17.564970+08:00",
+    "command": [
+      "systemd-run",
+      "--unit=lab3-a",
+      "-p",
+      "MemoryMax=200M",
+      "-p",
+      "MemorySwapMax=0",
+      "--setenv=GOMEMLIMIT=170MiB",
+      "/root/lab3-o1/bin/enrolld",
+      "-addr",
+      "127.0.0.1:8081",
+      "-data",
+      "/root/lab3-o1/data/a"
+    ],
+    "stdout": "",
+    "stderr": "Running as unit: lab3-a.service; invocation ID: 6903d56977af42b3a39676fcd3db9df7\n",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:45:20.571347+08:00",
+    "command": [
+      "curl",
+      "-fsS",
+      "http://127.0.0.1:8081/config"
+    ],
+    "stdout": "{\n  \"addr\": \"127.0.0.1:8081\",\n  \"version\": \"v1\",\n  \"work\": 200000,\n  \"pool\": 32,\n  \"db_ms\": 2,\n  \"pool_timeout\": \"1s\",\n  \"sync\": \"each\",\n  \"sync_interval\": \"1s\",\n  \"data\": \"/root/lab3-o1/data/a\",\n  \"warmup\": \"0s\",\n  \"drain_delay\": \"2s\",\n  \"report_max\": 0,\n  \"leak_kb\": 0,\n  \"cgroup\": \"/sys/fs/cgroup/system.slice/lab3-a.service\",\n  \"go_version\": \"go1.26.9\",\n  \"gomaxprocs\": 2,\n  \"gogc\": \"\",\n  \"gomemlimit\": \"170MiB\",\n  \"pid\": 953346,\n  \"started\": \"2026-11-12T19:45:17+08:00\"\n}\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:45:20.590283+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "MemoryMax",
+      "-p",
+      "MemorySwapMax",
+      "-p",
+      "Environment"
+    ],
+    "stdout": "MemoryMax=209715200\nMemorySwapMax=0\nEnvironment=GOMEMLIMIT=170MiB\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:46:21.737846+08:00",
+    "command": [
+      "systemctl",
+      "show",
+      "lab3-a",
+      "-p",
+      "ActiveState",
+      "-p",
+      "Result",
+      "-p",
+      "ExecMainStatus"
+    ],
+    "stdout": "Result=oom-kill\nExecMainStatus=9\nActiveState=failed\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:46:21.741593+08:00",
+    "command": [
+      "journalctl",
+      "-u",
+      "lab3-a",
+      "--since",
+      "2026-11-12 19:45:17",
+      "--no-pager",
+      "-o",
+      "short-iso"
+    ],
+    "stdout": "2026-11-12T19:45:17+08:00 ecs-37fd systemd[1]: Started lab3-a.service - /root/lab3-o1/bin/enrolld -addr 127.0.0.1:8081 -data /root/lab3-o1/data/a.\n2026-11-12T19:45:17+08:00 ecs-37fd enrolld[953346]: 2026/11/12 19:45:17 enrolld v1 监听 127.0.0.1:8081；GOMAXPROCS=2；cgroup /sys/fs/cgroup/system.slice/lab3-a.service；预热 0s；读：work=200000、pool=32、db-ms=2；写：sync=each\n2026-11-12T19:46:01+08:00 ecs-37fd systemd[1]: lab3-a.service: A process of this unit has been killed by the OOM killer.\n2026-11-12T19:46:01+08:00 ecs-37fd systemd[1]: lab3-a.service: Main process exited, code=killed, status=9/KILL\n2026-11-12T19:46:01+08:00 ecs-37fd systemd[1]: lab3-a.service: Failed with result 'oom-kill'.\n2026-11-12T19:46:01+08:00 ecs-37fd systemd[1]: lab3-a.service: Consumed 1.323s CPU time, 3.3M memory peak, 0B memory swap peak.\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:46:21.747980+08:00",
+    "command": [
+      "systemctl",
+      "stop",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  },
+  {
+    "time": "2026-11-12T19:46:21.751905+08:00",
+    "command": [
+      "systemctl",
+      "reset-failed",
+      "lab3-a"
+    ],
+    "stdout": "",
+    "stderr": "",
+    "returncode": 0
+  }
+]

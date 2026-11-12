@@ -1,0 +1,27 @@
+{
+  "time": "2026-11-12T19:48:30.390273+08:00",
+  "config": {
+    "addr": "127.0.0.1:8081",
+    "version": "v1",
+    "work": 200000,
+    "pool": 32,
+    "db_ms": 2,
+    "pool_timeout": "1s",
+    "sync": "each",
+    "sync_interval": "1s",
+    "data": "/root/lab3-o1/data/a",
+    "warmup": "0s",
+    "drain_delay": "2s",
+    "report_max": 0,
+    "leak_kb": 0,
+    "cgroup": "/sys/fs/cgroup/system.slice/lab3-a.service",
+    "go_version": "go1.26.9",
+    "gomaxprocs": 2,
+    "gogc": "",
+    "gomemlimit": "170MiB",
+    "pid": 954060,
+    "started": "2026-11-12T19:48:27+08:00"
+  },
+  "binary_sha256": "7d93698d3094e650ee76aa575511134b434925fdb5ae791d669697e941f394f1",
+  "systemd": "MemoryMax=379584512\nMemorySwapMax=0\nEnvironment=GOMEMLIMIT=170MiB\n"
+}
