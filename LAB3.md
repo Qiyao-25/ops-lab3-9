@@ -1,4 +1,4 @@
-# 实验 3 记录：第 9 组
+﻿# 实验 3 记录：第 9 组
 
 评分时依据本文件和 `runs/` 中的原始数据核对。本文件中的每一个数值，都须能在某个 `runs/<名字>/` 的文件中找到：表格用 `scripts/table.sh` 生成或从 `summary.md` 中复制后粘贴，其他数值注明出处（例如“`runs/b2-cpu/summary.md` 缺口表第 1 行”）。不要只贴截图。将 `<填写>` 替换为本组的内容。
 
@@ -378,8 +378,8 @@ systemd 重启恢复了进程，也释放了积累的内存。持续泄漏会在
 |---|---|
 | O1 GOMEMLIMIT | 已做。200MiB 硬限制下，170MiB 软限制将 OOM 从 20 请求/秒阶段推迟到 30 阶段；GC/CPU 同窗口补充对照及完整结果见下文 O1。 |
 | O2 两层伸缩 | 已完成。实现有限空位与节点等待模拟，对照数据见 `runs/o2-slots4/`、`runs/o2-slots2/`。从爬升到四实例就绪分别约 120.4s、389.7s，服务缺口分别为 100s、372s，分析见下文 O2。 |
-| O3 扩错层 | <未做 / 预测、`runs/` 目录、结论> |
-| O4 Kubernetes 的 HPA | <未做 / 环境、配置文件、数据与结论> |
+| O3 扩错层 | 预测已写，待测量。写路径（`sync=each`）下扩实例不能提升吞吐，因共享磁盘 fsync 是瓶颈；预测见 [docs/o3/prediction.md](docs/o3/prediction.md)。 |
+| O4 Kubernetes 的 HPA | 预测已写，待测量。用 K8s HPA（CPU 70%）重做 B2，与 `runs/b2-cpu` 对照；配置见 `deploy/o4/`，预测见 [docs/o4/prediction.md](docs/o4/prediction.md)。 |
 | O5 换负载均衡器 | 已做。配置 `deploy/haproxy.cfg`。`runs/o5-c1`：kill 约 3.0 秒 DOWN、157 个错误，pause 约 5.4 秒 DOWN、300 个错误，全程错误 457（1.11%）。`runs/o5-c3`：无 DOWN，错误 0，全站 p99 29.47 ms。对照见本节下文。 |
 | O6 两台主机 | <未做 / 拓扑、`runs/` 目录、结论> |
 | O7 迁移到小组项目 | <未做 / 仓库链接、做了什么、结论> |
@@ -523,8 +523,27 @@ O5 用 HAProxy 替换 lbd，重做 C1 和 C3。测量前的预测：主动检查
 
 `runs/o5-c3`（负载开始于 19:45:36）：第 63.1 秒把 `8102` 配额降到 14%，第 183.1 秒调回 25%。整段日志没有新的 DOWN 或 UP。全程 41220 个请求全部成功，错误 0，没有 p99 超过 200 ms 的秒。全站 p99 29.47 ms，max 181.71 ms。降配额前（t+20–60）每秒 p99 的中位数 13.59 ms，降配额期间（t+70–180）30.48 ms，最高的一秒是 t+157 的 172.60 ms，调回后（t+200–230）13.20 ms。按 HAProxy 日志里的服务器响应时间，降配额中间一分钟 `s8102` 的 p99 为 66 ms、max 181 ms，`s8101` 和 `s8103` 的 p99 都是 13 ms；三台请求数都是 3491，流量没有被摘走。对照：lbd 不摘除时全站 p99 22.44 ms，打开 `-outlier` 后降到 15.00 ms。HAProxy 这组只做主动健康检查，变慢和 `c3-slow` 一样检查是通过的，全站 p99 留在升高后的水平。
 
+### O3 扩错层
 
+**测前预测（2026-11-13T14:00:00+08:00，正式测量前写入）：** 写路径（`POST /api/enroll`，`-sync each`）每笔请求都要 `fsync` 落盘。实验 2 任务 0 测得单写者串行 fsync 平均约 1.28 ms、上限约 780 次/秒，且 `-bench-fsync` 时 `wa` 46%～47%、`us+sy` 仅 3%～7%，瓶颈在磁盘不在 CPU。所有 enrolld 实例共享同一块系统盘 `/dev/vda1`，多个实例的并发 `fsync` 会在块设备层串行化到同一物理上限。
 
+预测：1 实例写吞吐受限于磁盘 fsync 速率（约数百请求/秒），`disk_util` 接近 1；增加到 2、4 实例时总 `ok_rps` 不会线性增长（增幅预计不超过 20%），`disk_util` 仍接近 1，p99 可能因排队反而上升。对照读路径（`/api/courses/1`，无 fsync），增加实例应能提升吞吐，形成"扩错层"与"扩对层"的对照。完整预测见 [docs/o3/prediction.md](docs/o3/prediction.md)。
+
+**实验设计（测量前确定）：** 写路径 `POST /api/enroll`、`-sync each`、负载 `200@120s`；1、2、4 实例经 lbd 轮询，每实例 25% CPU 配额、相同 `work`，共享同一 `data/` 目录。读路径对照组同配置访问 `/api/courses/1`。记录 `ok_rps`、`error_rate`、`p99_ms`、`disk_util`、`disk_w_await_ms`、`cpu_iowait`、`svc_cpu_busy`。
+
+**实测与分析：** <待测量后填写，引用 `runs/o3-*/` 数据>
+
+### O4 Kubernetes 的 HPA
+
+**测前预测（2026-11-13T14:00:00+08:00，正式测量前写入）：** 用 K8s HPA 重做 B2（CPU 信号，target 70%），与原生 scaler 的 `runs/b2-cpu` 对照。scaler 的 `desiredReplicas` 算法就是 HPA 算法（`⌈current × signal / target⌉`，容差 0.1，缩容 300s 稳定窗口），因此决策时刻和期望实例数预计相似。
+
+预测：HPA 从决策到 Pod 就绪约 80～100 秒（容器启动 + 60s 预热 + 就绪探针），与原生 scaler 的 84 秒同量级；缺口预计 100～120 秒，与 b2-cpu 的 110 秒接近；实例·分钟约 36～37，与 b2-cpu 的 36.7 接近。差异可能来自 Pod 镜像是否已缓存、metrics-server 与 Prometheus 的指标口径差异、K8s Service 与 lbd 的连接处理差异。完整预测见 [docs/o4/prediction.md](docs/o4/prediction.md)。
+
+**部署配置：** [deploy/o4/namespace.yaml](deploy/o4/namespace.yaml)、[deployment.yaml](deploy/o4/deployment.yaml)（CPU 250m、内存 128Mi、`-warmup 60s -work 1000000`、就绪探针 `/readyz`）、[service.yaml](deploy/o4/service.yaml)、[hpa.yaml](deploy/o4/hpa.yaml)（CPU target 70%，min 2，max 4，扩容速率 `max(100%, 4 pods/15s)`，缩容 300s 稳定窗口）。
+
+**实验设计（测量前确定）：** 到达曲线与 b2-cpu 完全相同 `34@120s,34~340@30s,340@300s,340~34@60s,34@120s`，经 K8s Service 访问。记录逐秒 `ok_rps`/`error`/`p99`、HPA 事件、Pod 创建与就绪时刻、容器 CPU 指标，与 `runs/b2-cpu/summary.md` 的缺口秒数、错误数、实例·分钟、就绪延迟逐项对照。
+
+**实测与分析：** <待测量后填写，引用 `runs/o4-*/` 数据>
 
 ## 8. 成员分工
 
@@ -533,3 +552,4 @@ O5 用 HAProxy 替换 lbd，重做 C1 和 C3。测量前的预测：主动检查
 | GitHub 用户名 | 负责的部分 |
 |---|---|
 | <用户名> | <填写> |
+

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: enrolld
+  namespace: lab3-o4
+  labels:
+    app: enrolld
+spec:
+  type: ClusterIP
+  selector:
+    app: enrolld
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
