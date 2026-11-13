@@ -47,18 +47,15 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 2
             failureThreshold: 3
-          livenessProbe:
-            httpGet:
-              path: /readyz
-              port: 8080
-            initialDelaySeconds: 90
-            periodSeconds: 10
+          # 不设 livenessProbe：与原生 scaler 对照，lbd 健康检查失败只标记 down 不杀进程
           volumeMounts:
             - name: data
               mountPath: /data
       volumes:
         - name: data
-          emptyDir: {}
+          hostPath:
+            path: /root/lab3/data
+            type: DirectoryOrCreate
       # 与原生 scaler 实验一致：实例绑定 CPU 1（用 cpuset 模拟）
       affinity:
         nodeAffinity:
