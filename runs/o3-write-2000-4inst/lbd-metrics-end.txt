@@ -1,0 +1,185 @@
+# HELP lb_requests_total lbd 转发完的请求数，按实例和状态码分；502 表示转发失败，503 表示没有可用的实例
+# TYPE lb_requests_total counter
+lb_requests_total{backend="127.0.0.1:8101",code="200"} 226657
+lb_requests_total{backend="127.0.0.1:8101",code="400"} 1
+lb_requests_total{backend="127.0.0.1:8101",code="405"} 48213
+lb_requests_total{backend="127.0.0.1:8101",code="502"} 97881
+lb_requests_total{backend="127.0.0.1:8102",code="200"} 167655
+lb_requests_total{backend="127.0.0.1:8102",code="400"} 1
+lb_requests_total{backend="127.0.0.1:8102",code="502"} 75795
+lb_requests_total{backend="127.0.0.1:8103",code="200"} 125838
+lb_requests_total{backend="127.0.0.1:8103",code="502"} 39986
+lb_requests_total{backend="127.0.0.1:8104",code="200"} 124430
+lb_requests_total{backend="127.0.0.1:8104",code="502"} 42261
+lb_requests_total{backend="127.0.0.1:8105",code="200"} 22470
+lb_requests_total{backend="127.0.0.1:8106",code="200"} 22470
+lb_requests_total{backend="127.0.0.1:8107",code="200"} 22471
+lb_requests_total{backend="127.0.0.1:8108",code="200"} 22471
+lb_requests_total{backend="none",code="503"} 689755
+# HELP lb_request_duration_seconds lbd 看到的耗时：从收到请求到转发的响应写完
+# TYPE lb_request_duration_seconds histogram
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.001"} 49924
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.002"} 102946
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.005"} 199780
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.01"} 223837
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.02"} 232112
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.05"} 234466
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.1"} 237319
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.2"} 240799
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="0.5"} 249973
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="1"} 262923
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="2"} 304229
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="5"} 372752
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8101",le="+Inf"} 372752
+lb_request_duration_seconds_sum{backend="127.0.0.1:8101"} 222389.60204264979
+lb_request_duration_seconds_count{backend="127.0.0.1:8101"} 372752
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.001"} 2672
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.002"} 46478
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.005"} 120306
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.01"} 132001
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.02"} 136563
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.05"} 137988
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.1"} 139661
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.2"} 142016
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="0.5"} 149197
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="1"} 159800
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="2"} 191020
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="5"} 243451
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8102",le="+Inf"} 243451
+lb_request_duration_seconds_sum{backend="127.0.0.1:8102"} 170542.828164499
+lb_request_duration_seconds_count{backend="127.0.0.1:8102"} 243451
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.001"} 314
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.002"} 32154
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.005"} 93873
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.01"} 105049
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.02"} 109658
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.05"} 111027
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.1"} 111780
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.2"} 113314
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="0.5"} 117501
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="1"} 122231
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="2"} 140963
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="5"} 165824
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8103",le="+Inf"} 165824
+lb_request_duration_seconds_sum{backend="127.0.0.1:8103"} 88252.911770306
+lb_request_duration_seconds_count{backend="127.0.0.1:8103"} 165824
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.001"} 232
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.002"} 32185
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.005"} 94065
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.01"} 105001
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.02"} 109442
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.05"} 110677
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.1"} 111622
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.2"} 112864
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="0.5"} 116140
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="1"} 121141
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="2"} 139866
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="5"} 166691
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8104",le="+Inf"} 166691
+lb_request_duration_seconds_sum{backend="127.0.0.1:8104"} 92377.48885732498
+lb_request_duration_seconds_count{backend="127.0.0.1:8104"} 166691
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.001"} 0
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.002"} 7479
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.005"} 22148
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.01"} 22440
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.02"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.05"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.1"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.2"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="0.5"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="1"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="2"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="5"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8105",le="+Inf"} 22470
+lb_request_duration_seconds_sum{backend="127.0.0.1:8105"} 53.20081805999984
+lb_request_duration_seconds_count{backend="127.0.0.1:8105"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.001"} 0
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.002"} 7704
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.005"} 22115
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.01"} 22436
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.02"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.05"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.1"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.2"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="0.5"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="1"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="2"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="5"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8106",le="+Inf"} 22470
+lb_request_duration_seconds_sum{backend="127.0.0.1:8106"} 52.99384651799979
+lb_request_duration_seconds_count{backend="127.0.0.1:8106"} 22470
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.001"} 0
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.002"} 7624
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.005"} 22120
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.01"} 22440
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.02"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.05"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.1"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.2"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="0.5"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="1"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="2"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="5"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8107",le="+Inf"} 22471
+lb_request_duration_seconds_sum{backend="127.0.0.1:8107"} 52.99732499600003
+lb_request_duration_seconds_count{backend="127.0.0.1:8107"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.001"} 0
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.002"} 7176
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.005"} 22122
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.01"} 22437
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.02"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.05"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.1"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.2"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="0.5"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="1"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="2"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="5"} 22471
+lb_request_duration_seconds_bucket{backend="127.0.0.1:8108",le="+Inf"} 22471
+lb_request_duration_seconds_sum{backend="127.0.0.1:8108"} 53.425281165999785
+lb_request_duration_seconds_count{backend="127.0.0.1:8108"} 22471
+# HELP lb_inflight_requests 正在转发给该实例的请求数
+# TYPE lb_inflight_requests gauge
+lb_inflight_requests{backend="127.0.0.1:8101"} 0
+lb_inflight_requests{backend="127.0.0.1:8102"} 0
+lb_inflight_requests{backend="127.0.0.1:8103"} 0
+lb_inflight_requests{backend="127.0.0.1:8104"} 0
+lb_inflight_requests{backend="127.0.0.1:8105"} 0
+lb_inflight_requests{backend="127.0.0.1:8106"} 0
+lb_inflight_requests{backend="127.0.0.1:8107"} 0
+lb_inflight_requests{backend="127.0.0.1:8108"} 0
+# HELP lb_backend_up 健康检查的结论：1 健康，0 不健康
+# TYPE lb_backend_up gauge
+lb_backend_up{backend="127.0.0.1:8101"} 0
+lb_backend_up{backend="127.0.0.1:8102"} 0
+lb_backend_up{backend="127.0.0.1:8103"} 0
+lb_backend_up{backend="127.0.0.1:8104"} 0
+lb_backend_up{backend="127.0.0.1:8105"} 0
+lb_backend_up{backend="127.0.0.1:8106"} 0
+lb_backend_up{backend="127.0.0.1:8107"} 0
+lb_backend_up{backend="127.0.0.1:8108"} 0
+# HELP lb_backend_eligible 能否接新请求：健康、没有排空、没有被摘除时为 1
+# TYPE lb_backend_eligible gauge
+lb_backend_eligible{backend="127.0.0.1:8101"} 0
+lb_backend_eligible{backend="127.0.0.1:8102"} 0
+lb_backend_eligible{backend="127.0.0.1:8103"} 0
+lb_backend_eligible{backend="127.0.0.1:8104"} 0
+lb_backend_eligible{backend="127.0.0.1:8105"} 0
+lb_backend_eligible{backend="127.0.0.1:8106"} 0
+lb_backend_eligible{backend="127.0.0.1:8107"} 0
+lb_backend_eligible{backend="127.0.0.1:8108"} 0
+# HELP lb_no_backend_total 没有可用实例、直接返回 503 的请求数
+# TYPE lb_no_backend_total counter
+lb_no_backend_total 689755
+# HELP lb_events_total 状态变化的次数，按事件分
+# TYPE lb_events_total counter
+lb_events_total{event="added"} 60
+lb_events_total{event="down"} 79
+lb_events_total{event="removed"} 56
+lb_events_total{event="up"} 125
+# HELP lb_backends 当前登记的实例数（含不健康、排空中的）
+# TYPE lb_backends gauge
+lb_backends 4
+# HELP lb_backends_eligible 当前能接新请求的实例数
+# TYPE lb_backends_eligible gauge
+lb_backends_eligible 0

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrolld
+  namespace: lab3-o4
+  labels:
+    app: enrolld
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: enrolld
+  template:
+    metadata:
+      labels:
+        app: enrolld
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+        - name: enrolld
+          # 替换为实际镜像地址；本地构建可用：docker build -t enrolld:lab3 .
+          image: enrolld:lab3
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-addr=0.0.0.0:8080"
+            - "-warmup=60s"
+            - "-work=1000000"
+            - "-data=/data"
+            # 与 b2-cpu 一致：25% CPU 配额、128M 内存
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
+          ports:
+            - containerPort: 8080
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 2
+            failureThreshold: 3
+          # 不设 livenessProbe：与原生 scaler 对照，lbd 健康检查失败只标记 down 不杀进程
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          hostPath:
+            path: /root/lab3/data
+            type: DirectoryOrCreate
+      # 与原生 scaler 实验一致：实例绑定 CPU 1（用 cpuset 模拟）
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: Exists

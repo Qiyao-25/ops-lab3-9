@@ -1,0 +1,6 @@
+loadgen：POST http://127.0.0.1:8080/api/enroll，1 个阶段共 2m0s，到达过程 poisson，超时 2s，GOMAXPROCS=1
+阶段 1/1：目标 2000 请求/秒，已发出 239733，已成功 239728，在途 5，压测机 CPU 15%
+等待在途的 5 个请求结束（最多 2s）…
+step  target_rps    sent      ok  error_rate  mean_ms  p50_ms  p99_ms  max_ms  slo_good  lag_p99_ms  gen_cpu_pct  
+   1        2000  239733  239733      0.0000     3.35    3.03    8.44   25.18    1.0000        1.11           15  
+ all              239733  239733      0.0000     3.35    3.03    8.44   25.18    1.0000        1.11           15  
