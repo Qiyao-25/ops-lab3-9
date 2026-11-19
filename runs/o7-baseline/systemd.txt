@@ -1,0 +1,5 @@
+MainPID=2895044
+ControlGroup=/system.slice/lab3-o7-textstats-baseline.service
+CPUQuotaPerSecUSec=infinity
+CPUQuotaPeriodUSec=infinity
+AllowedCPUs=1

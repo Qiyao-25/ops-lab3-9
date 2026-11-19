@@ -1,0 +1,6 @@
+MainPID=3131974
+ExecStart={ path=/root/lab3-member4-electives/bin/enrolld ; argv[]=/root/lab3-member4-electives/bin/enrolld -addr 192.168.0.178:8080 -data /root/lab3-member4-electives/data/o6-backend -version o6 -warmup 0s -work 1000000 ; ignore_errors=no ; start_time=[Thu 2026-11-19 14:12:31 CST] ; stop_time=[n/a] ; pid=3131974 ; code=(null) ; status=0/0 }
+ControlGroup=/system.slice/lab3-o6-backend.service
+CPUQuotaPerSecUSec=250ms
+AllowedCPUs=1
+MemoryMax=134217728

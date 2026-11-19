@@ -1,0 +1,10 @@
+unix_ms,time,backend,event,detail
+1795004682583,20:24:42.583,127.0.0.1:18080,added,init=up
+1795004717084,20:25:17.084,127.0.0.1:18080,down,"连续失败 3 次：Get ""http://127.0.0.1:18080/healthz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1795004719584,20:25:19.584,127.0.0.1:18080,up,连续成功 2 次
+1795004723083,20:25:23.083,127.0.0.1:18080,down,"连续失败 3 次：Get ""http://127.0.0.1:18080/healthz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1795004725671,20:25:25.671,127.0.0.1:18080,up,连续成功 2 次
+1795004731083,20:25:31.083,127.0.0.1:18080,down,"连续失败 3 次：Get ""http://127.0.0.1:18080/healthz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1795004734583,20:25:34.583,127.0.0.1:18080,up,连续成功 2 次
+1795004739084,20:25:39.084,127.0.0.1:18080,down,"连续失败 3 次：Get ""http://127.0.0.1:18080/healthz"": context deadline exceeded (Client.Timeout exceeded while awaiting headers)"
+1795004743584,20:25:43.584,127.0.0.1:18080,up,连续成功 2 次

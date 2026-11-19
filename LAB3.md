@@ -381,8 +381,8 @@ systemd 重启恢复了进程，也释放了积累的内存。持续泄漏会在
 | O3 扩错层 | 已完成。写路径（`sync=each`）实测扩实例有效，预测被证伪：磁盘 `%util` 最高约 85%，瓶颈在单实例 CPU 而非共享磁盘 fsync；数据见 `runs/o3-write-*/`、`runs/o3-read-*/`，分析见下文 O3。 |
 | O4 Kubernetes 的 HPA | 已完成。k3s HPA（CPU 70%，min 2 max 4）重做 B2，错误 10995（8.66%，低于 b2-cpu 的 16.73%），实例·分钟 ≈34.0；发现 livenessProbe 在过载时会杀 pod 导致级联故障（见 `runs/o4-hpa-liveness/`）；分析见下文 O4。 |
 | O5 换负载均衡器 | 已做。配置 `deploy/haproxy.cfg`。`runs/o5-c1`：kill 约 3.0 秒 DOWN、157 个错误，pause 约 5.4 秒 DOWN、300 个错误，全程错误 457（1.11%）。`runs/o5-c3`：无 DOWN，错误 0，全站 p99 29.47 ms。对照见本节下文。 |
-| O6 两台主机 | <未做 / 拓扑、`runs/` 目录、结论> |
-| O7 迁移到小组项目 | <未做 / 仓库链接、做了什么、结论> |
+| O6 两台主机 | 已实测。[同机](runs/o6-same-host/)与[跨机](runs/o6-cross-host/)成功吞吐分别为 59.7 和 59.7 请求/秒，p99 分别为 9.44 和 9.54 ms，见下文 O6。 |
+| O7 迁移到小组项目 | 已完成。[textstats 项目](https://github.com/sjettu/ops-lab3-9-o7/tree/80000fe749a809bea4d499ebd78e2dbb804615ba)对照无配额与 50% CPU 配额。400 请求/秒档成功吞吐由 398.0 降至 167.4 请求/秒，见下文 O7。 |
 
 ### O1 GOMEMLIMIT
 
@@ -597,6 +597,37 @@ O5 用 HAProxy 替换 lbd，重做 C1 和 C3。测量前的预测：主动检查
 **livenessProbe 的坑（`runs/o4-hpa-liveness/`）：** 初版配置了 livenessProbe（`/readyz`，timeout 1s），高负载下 pod 无法及时响应健康检查，被 k8s 杀掉重启，导致级联故障：错误率 48.31%（61355 个错误）、缺口 350s。去掉 livenessProbe、只保留 readinessProbe 后（readiness 失败只停止转发流量、不杀容器，与 b2-cpu 的 lbd 健康检查行为一致），错误率降到 8.66%。**教训：对 CPU 受限的服务，livenessProbe 超时应远大于 p99 延迟，否则过载时会把"慢"升级为"死"。**
 
 **局限：** 每种配置仅测一轮；HPA 副本数每 5s 采样一次，实例·分钟为近似积分；服务器仅 2 vCPU，4 副本各 250m 合计 1000m，剩余 1000m 给 lbd、loadgen、k3s 自身，资源紧张可能放大了慢请求。
+
+
+### O6 两台主机
+
+按[测前预测](docs/o6/prediction.md)运行同机和跨机两轮。同机时 loadgen、lbd 和服务都在主机 A。跨机时 loadgen、lbd 移到同 VPC 的主机 B，lbd 通过私网访问主机 A 的 8080。A 安全组的实验入方向规则来源为 B 的私网地址 /32。两轮使用 A 上同一个 enrolld 进程、25% CPU 配额、同一请求种子和 `60@90s` 负载。[后端配额](runs/o6-same-host/backend-cpu-max.txt) · [同一进程](docs/o6/backend-config.txt) · [结束时进程](docs/o6/backend-after.txt)
+
+| 组别 | 发出 | 成功 | 错误 | 成功请求/秒 | p50（ms） | p99（ms） | 发送滞后 p99（ms） |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 同机 | 5374 | 5374 | 0 | 59.7 | 5.35 | 9.44 | 1.06 |
+| 跨机 | 5374 | 5374 | 0 | 59.7 | 5.40 | 9.54 | 1.06 |
+
+五次就绪探测的 TCP 建连时间中位数为同机 0.139 ms、跨机 0.282 ms。正式压测中，跨机 p50 上升 0.05 ms，p99 上升 0.10 ms。两轮均无请求错误。跨机同时引入私网转发，并将负载发生器和负载均衡器的开销移出 A。本次延迟差异反映这两种部署拓扑的整体表现。
+
+原始记录见[同机压测](runs/o6-same-host/steps.csv)、[跨机压测](runs/o6-cross-host/steps.csv)、[同机建连探测](runs/o6-same-host/backend-probe.csv)、[跨机建连探测](runs/o6-cross-host/backend-probe.csv)、[同机路由](runs/o6-same-host/private-route.txt)和[跨机路由](runs/o6-cross-host/private-route.txt)。
+
+实验结束后已停止临时后端。组内已确认删除主机 A 上仅允许主机 B 私网地址访问 TCP 8080 的临时安全组规则。
+
+### O7 迁移到小组项目
+
+[测前预测](docs/o7/prediction.md)预计 100 请求/秒两组均可承受，400 请求/秒下半核配额会增加节流。复用 Lab 2 的 textstats，按[项目配置](https://github.com/sjettu/ops-lab3-9-o7/blob/80000fe749a809bea4d499ebd78e2dbb804615ba/deploy/start-o7-service.sh)分别启动无配额和 `CPUQuota=50%` 的实例。两组使用同一二进制、CPU 1、`GOMAXPROCS=1` 和同一份 64 KiB 文本，均经 lbd 向 `POST /api/analyze` 施加 `100@30s,400@30s`。
+
+| 组别 | 目标请求/秒 | 成功请求/秒 | 错误率 | 成功请求 p99（ms） | 成功且不超过 20 ms |
+|---|---:|---:|---:|---:|---:|
+| 无配额 | 100 | 100.8 | 0.00% | 7.89 | 99.97% |
+| 50% 配额 | 100 | 100.8 | 0.00% | 7.75 | 100.00% |
+| 无配额 | 400 | 398.0 | 0.00% | 17.38 | 99.39% |
+| 50% 配额 | 400 | 167.4 | 57.94% | 1950.11 | 5.24% |
+
+逐阶段数据见[无配额](runs/o7-baseline/steps.csv)和[配额组](runs/o7-quota/steps.csv)。`cpu.max` 分别为 `max 100000` 和 `50000 100000`。配额组整轮新增 599 个执行周期，其中 291 个发生节流。400 请求/秒阶段，lbd 因 `/healthz` 超时四次将唯一后端判为不可用，返回 4,766 个无后端的 503。高负载结果包含 CPU 限额引发的排队和健康检查摘除带来的可用性损失。两轮压测均无 `dropped`。结论适用于本次输入、配额和健康检查参数。
+
+证据：[无配额 cgroup](runs/o7-baseline/cpu-max.txt) · [配额 cgroup](runs/o7-quota/cpu-max.txt) · [节流计数前](runs/o7-quota/cpu-stat-before.txt) · [节流计数后](runs/o7-quota/cpu-stat-after.txt) · [lbd 事件](runs/o7-quota/lbd-events.csv) · [lbd 计数](runs/o7-quota/lbd-metrics-end.txt)
 
 ## 8. 成员分工
 

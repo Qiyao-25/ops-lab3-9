@@ -1,0 +1,2 @@
+2026/11/19 14:14:04 192.168.0.178:8080 added init=up
+2026/11/19 14:14:04 lbd 监听 127.0.0.1:18086（管理接口 127.0.0.1:18096）；rr；健康检查 /readyz 每 1s，超时 500ms，fall 3、rise 2；被动摘除 false；事件写入 /root/lab3-member4-electives/data/o6-cross-host/lbd-events.csv
