@@ -1,0 +1,2 @@
+9c70afdee371bc2716fbdf3855302e59e732bbec1376acf0b6469233998b68b2  /root/ops-lab3-9-o7/data/o7-request.json
+e318d05e84c59af1f51e66706fe03285521587aad12f28f46bc7ab56320d12c8  /root/ops-lab3-9-o7/bin/textstats

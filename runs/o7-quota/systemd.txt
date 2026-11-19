@@ -1,0 +1,5 @@
+MainPID=2895325
+ControlGroup=/system.slice/lab3-o7-textstats-quota.service
+CPUQuotaPerSecUSec=500ms
+CPUQuotaPeriodUSec=infinity
+AllowedCPUs=1

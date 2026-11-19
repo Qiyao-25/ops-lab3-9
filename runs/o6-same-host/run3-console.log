@@ -1,0 +1,19 @@
+curl: (7) Failed to connect to 127.0.0.1 port 18098 after 0 ms: Couldn't connect to server
+curl: (7) Failed to connect to 127.0.0.1 port 18098 after 0 ms: Couldn't connect to server
+== loadgen（结果写进 runs/o6-same-host/）
+loadgen：GET http://127.0.0.1:18086/api/courses/1，1 个阶段共 1m30s，到达过程 poisson，超时 2s，GOMAXPROCS=1
+阶段 1/1：目标 60 请求/秒，已发出 5374，已成功 5374，在途 0，压测机 CPU 1%
+等待在途的 0 个请求结束（最多 2s）…
+step  target_rps  sent    ok  error_rate  mean_ms  p50_ms  p99_ms  max_ms  slo_good  lag_p99_ms  gen_cpu_pct  
+   1          60  5374  5374      0.0000     5.57    5.35    9.44   29.29    1.0000        1.06            1  
+ all              5374  5374      0.0000     5.57    5.35    9.44   29.29    1.0000        1.06            1  
+# o6-same-host
+
+负载共 90 秒；时间都是负载开始后的秒数。
+
+## 缺口（出错，或 p99 > 200 ms 的秒）
+
+没有缺口。
+全程发出 5374 个请求，错误 0 个（0.00%），成功但超过阈值 0 个（0.00%）。
+
+完成：runs/o6-same-host

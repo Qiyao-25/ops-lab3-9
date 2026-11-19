@@ -1,0 +1,47 @@
+名字: o6-same-host
+开始: 2026-11-19T14:12:32+08:00
+主机: Linux 6.8.0-136-generic x86_64
+CPU: 2 个逻辑核；General Purpose Processor
+内存: 3531 MiB，available 1797 MiB
+systemd: systemd 255 (255.4-1ubuntu8.16)
+loadgen: 绑定的核 0；缺口阈值 0.2s
+仓库提交: a7a70b8，未提交的改动 3 处
+压测命令: bin/loadgen '-url' 'http://127.0.0.1:18086/api/courses/1' '-plan' '60@90s' '-seed' '1'
+lbd /config:
+{
+  "addr": "127.0.0.1:18086",
+  "admin": "127.0.0.1:18096",
+  "policy": "rr",
+  "check_path": "/readyz",
+  "check_interval": "1s",
+  "check_timeout": "500ms",
+  "fall": 3,
+  "rise": 2,
+  "timeout": "2s",
+  "outlier": false,
+  "outlier_window": "10s",
+  "outlier_factor": 3,
+  "outlier_min_ms": 50,
+  "outlier_min_requests": 50,
+  "outlier_error_rate": 0.2,
+  "outlier_max_frac": 0.34,
+  "outlier_eject": "30s",
+  "events": "/root/lab3-member4-electives/data/o6-same-host/lbd-events.csv",
+  "started": "2026-11-19T14:12:32+08:00"
+}
+lbd /backends:
+[
+  {
+    "addr": "192.168.0.178:8080",
+    "up": true,
+    "draining": false,
+    "ejected": false,
+    "eligible": true,
+    "inflight": 0,
+    "served": 1
+  }
+]
+scaler /config:
+（没有运行 scaler）
+scaler /instances:
+结束: 2026-11-19T14:14:04+08:00

@@ -1,0 +1,11 @@
+[
+  {
+    "addr": "192.168.0.178:8080",
+    "up": true,
+    "draining": false,
+    "ejected": false,
+    "eligible": true,
+    "inflight": 0,
+    "served": 0
+  }
+]
